@@ -1,21 +1,22 @@
 //
-//  MasterViewController.m
+//  BrowseOverflowViewController.m
 //  BrowseOverflow
 //
 //  Created by Bernd Rabe on 29.04.13.
 //  Copyright (c) 2013 RABE_IT Services. All rights reserved.
 //
 
-#import "MasterViewController.h"
-
+#import "BrowseOverflowViewController.h"
 #import "DetailViewController.h"
+#import "TopicTableProvider.h"
+#import "QuestionTableProvider.h"
 
-@interface MasterViewController () {
+@interface BrowseOverflowViewController () {
     NSMutableArray *_objects;
 }
 @end
 
-@implementation MasterViewController
+@implementation BrowseOverflowViewController
 
 - (void)awakeFromNib
 {
@@ -25,17 +26,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tableView.dataSource = _provider;
+    self.tableView.delegate = _provider;
+    
 	// Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSelectTopic:) name:TopicTableDidSelectTopicNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)insertNewObject:(id)sender
@@ -108,6 +120,18 @@
         NSDate *object = _objects[indexPath.row];
         [[segue destinationViewController] setDetailItem:object];
     }
+}
+
+- (void)didSelectTopic:(NSNotification *)notification
+{
+    Topic *selectedTopic = (Topic *)[notification object];
+    QuestionTableProvider *provider = [[QuestionTableProvider alloc] init];
+    provider.topic = selectedTopic;
+    
+    BrowseOverflowViewController *nextViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([self class])];
+    nextViewController.provider = provider;
+    
+    [[self navigationController] pushViewController:nextViewController animated:YES];
 }
 
 @end

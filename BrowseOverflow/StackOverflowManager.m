@@ -86,5 +86,24 @@ NSString *const StackOverflowManagerError = @"StackOverflowManagerError";
     self.questionNeedingBody = nil;
 }
 
+- (void)receivedAnswerListJSON:(NSString *)objectNotation
+{
+    
+}
+
+- (void)searchingForQuestionsFailedWithError:(NSError *)error
+{
+    
+}
+
+- (void)fetchingAnswersFailedWithError:(NSError *)error
+{
+    
+}
+
+- (void)receivedQuestionsJSON:(NSString *)objectNotation
+{
+    
+}
 
 @end
