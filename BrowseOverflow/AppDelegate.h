@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class StackOverflowManager, AvatarStore;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (nonatomic, strong) StackOverflowManager *manager;
+@property (nonatomic, strong) AvatarStore *avatarStore;
 
 @end

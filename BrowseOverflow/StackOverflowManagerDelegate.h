@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "StackOverflowManager.h"
 
-@interface StackOverflowManagerDelegate : NSObject <StackOverflowManagerDelegate>
+@class Question;
+
+@protocol StackOverflowManagerDelegate <NSObject>
 @property (nonatomic, copy, readonly) NSError *fetchedError;
 
 - (void)fetchingQuestionsFailedWithError:(NSError *)error;

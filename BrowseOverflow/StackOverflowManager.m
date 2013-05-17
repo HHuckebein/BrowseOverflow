@@ -7,6 +7,7 @@
 //
 
 #import "StackOverflowManager.h"
+#import "StackOverflowCommunicator.h"
 #import "Topic.h"
 #import "QuestionBuilder.h"
 #import "Question.h"

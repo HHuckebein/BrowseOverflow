@@ -127,6 +127,9 @@ static const char *notificationKey = "BrowseOverflowViewControllerTestsAssociate
 
 - (void)testViewControllerDoesNotReceiveTableSelectNotificationAfterViewWillDisappear
 {
+    [BrowseOverflowViewControllerTest swapInstanceMethodsForClass:[BrowseOverflowViewController class]
+                                                         selector:realUserDidSelectTopic
+                                                      andSelector: testUserDidSelectTopic];
     // when
     [self.sut viewDidAppear:NO];
     [self.sut viewWillDisappear:NO];
@@ -134,6 +137,10 @@ static const char *notificationKey = "BrowseOverflowViewControllerTestsAssociate
     
     // then
     assertThat(objc_getAssociatedObject(self.sut, notificationKey), is(nilValue()));
+
+    [BrowseOverflowViewControllerTest swapInstanceMethodsForClass:[BrowseOverflowViewController class]
+                                                         selector:realUserDidSelectTopic
+                                                      andSelector: testUserDidSelectTopic];
 }
 
 - (void)testViewControllerReceivesTableSelectionNotificationAfterViewDidAppear
@@ -159,7 +166,7 @@ static const char *notificationKey = "BrowseOverflowViewControllerTestsAssociate
     [self.sut performSelector:@selector(didSelectTopic:) withObject:nil];
     
     // then
-    assertThatBool([self.sut.navigationController topViewController] == self.sut, is(equalToBool(FALSE)));
+    assertThatBool([self.navController topViewController] == self.sut, is(equalToBool(FALSE)));
 }
 
 - (void)testNewViewControllerHasAQuestionListProviderForTheSelectedTopic

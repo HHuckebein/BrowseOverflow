@@ -9,7 +9,7 @@
 #import "TopicTableProvider.h"
 #import "Topic.h"
 
-NSString *const topicCellReuseIdentifier = @"TopicsCellStyle";
+NSString *const topicCellReuseIdentifier = @"BasicStyle";
 NSString *const TopicTableDidSelectTopicNotification = @"TopicTableDidSelectTopicNotification";
 
 @implementation TopicTableProvider

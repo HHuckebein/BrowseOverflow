@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "StackOverflowCommunicator.h"
+#import "StackOverflowManagerDelegate.h"
+#import "StackOverflowCommunicatorDelegate.h"
 
 extern NSString *const StackOverflowManagerError;
 
@@ -16,8 +17,7 @@ NS_ENUM(NSUInteger, StackOverflowManagerErrorCode) {
     StackOverflowManagerErrorQuestionBodyFetchCode
 };
 
-@protocol StackOverflowManagerDelegate;
-@class Topic, QuestionBuilder, Question;
+@class Topic, QuestionBuilder, Question, StackOverflowCommunicator;
 
 @interface StackOverflowManager : NSObject <StackOverflowCommunicatorDelegate>
 @property (nonatomic, weak  ) id <StackOverflowManagerDelegate> delegate;
@@ -33,8 +33,3 @@ NS_ENUM(NSUInteger, StackOverflowManagerErrorCode) {
 - (void)receivedQuestionBodyJSON:(NSString *)objectNotation;
 @end
 
-@protocol StackOverflowManagerDelegate <NSObject>
-- (void)fetchingQuestionsFailedWithError:(NSError *)error;
-- (void)fetchingQuestionBodyFailedWithError: (NSError *)error;
-- (void)bodyReceivedForQuestion: (Question *)question;
-@end

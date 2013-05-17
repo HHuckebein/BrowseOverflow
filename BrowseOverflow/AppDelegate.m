@@ -7,6 +7,11 @@
 //
 
 #import "AppDelegate.h"
+#import "StackOverflowManager.h"
+#import "StackOverflowCommunicator.h"
+#import "QuestionBuilder.h"
+#import "AnswerBuilder.h"
+#import "AvatarStore.h"
 
 @implementation AppDelegate
 
@@ -41,6 +46,32 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - StackOverflow Stuff
+
+- (StackOverflowManager *)stackOverflowManager {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _manager = [[StackOverflowManager alloc] init];
+        _manager.communicator = [[StackOverflowCommunicator alloc] init];
+        _manager.communicator.delegate = _manager;
+        
+//        _manager.bodyCommunicator = [[StackOverflowCommunicator alloc] init];
+//        _manager.bodyCommunicator.delegate = _manager;
+        _manager.questionBuilder = [[QuestionBuilder alloc] init];
+//        _manager.answerBuilder = [[AnswerBuilder alloc] init];
+    });
+    return _manager;
+}
+
+- (AvatarStore *)avatarStore {
+    static AvatarStore *avatarStore = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _avatarStore = [[AvatarStore alloc] init];
+    });
+    return avatarStore;
 }
 
 @end

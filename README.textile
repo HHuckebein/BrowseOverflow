@@ -1,0 +1,9 @@
+h2. BrowseOverflow
+
+h3. Usage
+
+h3. Versioning
+
+h3. License
+
+Usage is provided under the [MIT licence](http://http://opensource.org/licenses/MIT). See LICENCE for the full details.

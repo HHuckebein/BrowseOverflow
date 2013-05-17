@@ -10,7 +10,7 @@
 
 @interface BrowseOverflowViewController : UIViewController
 
-@property (nonatomic, weak) IBOutlet UITableView *tableView;
-@property (nonatomic, weak) id <UITableViewDataSource, UITableViewDelegate> provider;
+@property (nonatomic, weak  ) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) id <UITableViewDataSource, UITableViewDelegate> provider;
 
 @end

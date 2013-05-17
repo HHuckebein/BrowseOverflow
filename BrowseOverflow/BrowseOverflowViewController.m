@@ -125,6 +125,7 @@
 - (void)didSelectTopic:(NSNotification *)notification
 {
     Topic *selectedTopic = (Topic *)[notification object];
+    
     QuestionTableProvider *provider = [[QuestionTableProvider alloc] init];
     provider.topic = selectedTopic;
     

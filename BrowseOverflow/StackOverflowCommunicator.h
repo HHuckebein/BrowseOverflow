@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "StackOverflowCommunicatorDelegate.h"
 
 extern NSString *const StackOverflowCommunicatorErrorDomain;
 
-@protocol StackOverflowCommunicatorDelegate;
 @interface StackOverflowCommunicator : NSObject <NSURLConnectionDataDelegate>
 
 @property (nonatomic, weak) id <StackOverflowCommunicatorDelegate> delegate;
@@ -28,13 +28,3 @@ extern NSString *const StackOverflowCommunicatorErrorDomain;
 - (NSData *)receivedData;
 @end
 
-@protocol StackOverflowCommunicatorDelegate <NSObject>
-
-- (void)searchingForQuestionsFailedWithError: (NSError *)error;
-- (void)fetchingQuestionBodyFailedWithError: (NSError *)error;
-- (void)fetchingAnswersFailedWithError: (NSError *)error;
-- (void)receivedQuestionsJSON: (NSString *)objectNotation;
-- (void)receivedAnswerListJSON: (NSString *)objectNotation;
-- (void)receivedQuestionBodyJSON: (NSString *)objectNotation;
-
-@end

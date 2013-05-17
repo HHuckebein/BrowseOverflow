@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class Topic;
+extern NSString *const questionCellReuseIdentifier;
+extern NSString *const placeholderCellReuseIdentifier;
 
+@class Topic;
 @interface QuestionTableProvider : NSObject <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) Topic *topic;

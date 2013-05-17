@@ -12,6 +12,7 @@
 #import "Question.h"
 #import "StackOverflowCommunicator.h"
 #import "StackOverflowManagerDelegate.h"
+#import "MockStackOverflowManagerDelegate.h"
 #import "Topic.h"
 #import "QuestionBuilder.h"
 
@@ -51,7 +52,7 @@ NSString *const fakeJSON = @"FAKE JSON";
 
     self.topic = [[Topic alloc] initWithName:@"iPhone" tag:@"iphone"];
     
-    self.delegate = [[StackOverflowManagerDelegate alloc] init]; // mockObjectAndProtocol([StackOverflowManagerDelegate class], @protocol(StackOverflowManagerDelegate));
+    self.delegate = (id <StackOverflowManagerDelegate>)[[MockStackOverflowManagerDelegate alloc] init];
         
     self.mockCommunicator = mock([StackOverflowCommunicator class]);
     self.mgr.communicator = self.mockCommunicator;
@@ -122,7 +123,7 @@ NSString *const fakeJSON = @"FAKE JSON";
     [self.mgr searchingForQuestionsOnTopic:self.topic failedWithError:self.underlyingError];
     
     // then
-    assertThat(((StackOverflowManagerDelegate *)_delegate).fetchedError, equalTo(reportableError));
+    assertThat(((MockStackOverflowManagerDelegate *)_delegate).fetchedError, equalTo(reportableError));
 }
 
 - (void)testQuestionJSONIsPassedToQuestionBuilder
@@ -149,7 +150,7 @@ NSString *const fakeJSON = @"FAKE JSON";
     [self.mgr receivedQuestionJSON:fakeJSON];
     
     // then
-    assertThat(((StackOverflowManagerDelegate *)_delegate).fetchedError.domain, equalTo(StackOverflowManagerError));
+    assertThat(((MockStackOverflowManagerDelegate *)_delegate).fetchedError.domain, equalTo(StackOverflowManagerError));
     self.mgr.questionBuilder = nil;
 }
 
@@ -175,13 +176,13 @@ NSString *const fakeJSON = @"FAKE JSON";
     [self.mgr fetchingQuestionBodyFailedWithError:self.underlyingError];
     
     // then
-    assertThat(((StackOverflowManagerDelegate *)_delegate).fetchedError.userInfo[NSUnderlyingErrorKey], is(notNilValue()));
+    assertThat(((MockStackOverflowManagerDelegate *)_delegate).fetchedError.userInfo[NSUnderlyingErrorKey], is(notNilValue()));
 }
 
 - (void)testManagerPassesRetrievedQuestionBodyToQuestionBuilder
 {
     // given
-    self.mgr.delegate = mockObjectAndProtocol([StackOverflowManagerDelegate class], @protocol(StackOverflowManagerDelegate));;
+    self.mgr.delegate = _delegate;
     self.mgr.questionBuilder = self.mockQuestionBuilder;
     
     // when
@@ -189,7 +190,7 @@ NSString *const fakeJSON = @"FAKE JSON";
     [self.mgr receivedQuestionBodyJSON:fakeJSON];
     
     // then
-    [verify(self.mgr.delegate) bodyReceivedForQuestion:self.questionToFetch];
+    assertThat(((MockStackOverflowManagerDelegate *)self.mgr.delegate).bodyQuestion, is(equalTo(self.questionToFetch)));
     self.mgr.questionBuilder = nil;
 }
 
