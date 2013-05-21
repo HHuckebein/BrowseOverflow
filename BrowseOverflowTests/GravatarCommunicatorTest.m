@@ -47,6 +47,7 @@
 {
     _sut = nil;
     _fakeData = nil;
+    _mockGravatarDelegate = nil;
     
     [super tearDown];
 }

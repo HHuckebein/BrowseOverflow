@@ -74,6 +74,7 @@
     _question1 = nil;
     _question2 = nil;
     _asker1 = nil;
+    _tableView = nil;
     
     [super tearDown];
 }

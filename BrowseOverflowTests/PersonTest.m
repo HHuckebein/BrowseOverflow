@@ -22,7 +22,7 @@
 
 
 @interface PersonTest : SenTestCase
-@property (nonatomic, strong) Person *person;
+@property (nonatomic, strong) Person *sut;
 @end
 
 @implementation PersonTest
@@ -33,23 +33,23 @@
 - (void)setUp
 {
     [super setUp];
-    _person = [[Person alloc] initWithName:@"Graham Lee" avatarLocation:@"http://example.com/avatar.png"];
+    _sut = [[Person alloc] initWithName:@"Graham Lee" avatarLocation:@"http://example.com/avatar.png"];
 }
 
 - (void)tearDown
 {
-    _person = nil;
+    _sut = nil;
     [super tearDown];
 }
 
 - (void)testThatPersonHasName
 {
-    assertThat(self.person.name, equalTo(@"Graham Lee"));
+    assertThat(self.sut.name, equalTo(@"Graham Lee"));
 }
 
 - (void)testThatPersonsHasAvatarURL
 {
-    assertThat([self.person.avatarURL absoluteString], equalTo(@"http://example.com/avatar.png"));
+    assertThat([self.sut.avatarURL absoluteString], equalTo(@"http://example.com/avatar.png"));
 }
 
 - (void)testThatOwnerDictionaryContainsDisplayNameKey
@@ -76,11 +76,11 @@
     NSDictionary *dictionary = @{@"display_name" : @"Graham Lee", @"email_hash" : @"563290c0c1b776a315b36e863b388a0c"};
     
     // when
-    Person *person = [Person personFromOwnerDictionary:dictionary];
+    Person *sut = [Person personFromOwnerDictionary:dictionary];
     
     // then
-    assertThat(person.name, is(equalTo(@"Graham Lee")));
-    assertThat([person.avatarURL absoluteString], is(equalTo(@"http://www.gravatar.com/avatar/563290c0c1b776a315b36e863b388a0c")));
+    assertThat(sut.name, is(equalTo(@"Graham Lee")));
+    assertThat([sut.avatarURL absoluteString], is(equalTo(@"http://www.gravatar.com/avatar/563290c0c1b776a315b36e863b388a0c")));
 }
                                        
 @end

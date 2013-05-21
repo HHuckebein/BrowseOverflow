@@ -24,7 +24,7 @@
 
 
 @interface QuestionTest : SenTestCase
-@property (nonatomic, strong) Question  *question;
+@property (nonatomic, strong) Question  *sut;
 @property (nonatomic, strong) Person    *asker;
 @property (nonatomic, strong) Answer    *acceptedAnswer;
 @property (nonatomic, strong) Answer    *lowScoreAnswer;
@@ -79,26 +79,26 @@ static NSString *questionJSON = @"{"
     [super setUp];
     self.asker = [[Person alloc] initWithName:@"Graham Lee" avatarLocation:@"http://example.com/avatar.png"];
 
-    self.question = [[Question alloc] init];
-    self.question.asker = self.asker;
+    self.sut = [[Question alloc] init];
+    self.sut.asker = self.asker;
     
     self.acceptedAnswer = [[Answer alloc] init];
     self.acceptedAnswer.score = 1;
     self.acceptedAnswer.accepted = TRUE;
-    [self.question addAnswer:self.acceptedAnswer];
+    [self.sut addAnswer:self.acceptedAnswer];
     
     self.lowScoreAnswer = [[Answer alloc] init];
     self.lowScoreAnswer.score = -4;
-    [self.question addAnswer:self.lowScoreAnswer];
+    [self.sut addAnswer:self.lowScoreAnswer];
     
     self.highScoreAnswer = [[Answer alloc] init];
     self.highScoreAnswer.score = 4;
-    [self.question addAnswer:self.highScoreAnswer];
+    [self.sut addAnswer:self.highScoreAnswer];
 }
 
 - (void)tearDown
 {
-    _question = nil;
+    _sut = nil;
     _acceptedAnswer = nil;
     _lowScoreAnswer = nil;
     _highScoreAnswer = nil;
@@ -108,12 +108,12 @@ static NSString *questionJSON = @"{"
 
 - (void)testQuestionHasADateWhichIsNotNil
 {
-    assertThat(self.question.date, is(notNilValue()));
+    assertThat(self.sut.date, is(notNilValue()));
 }
 
 - (void)testQuestionHasADate
 {
-    assertThat(self.question.date, is(instanceOf([NSDate class])));
+    assertThat(self.sut.date, is(instanceOf([NSDate class])));
 }
 
 - (void)testThatDateIsCorrectlySetWithDate
@@ -122,50 +122,50 @@ static NSString *questionJSON = @"{"
     NSDate *date = [NSDate distantPast];
     
     // when
-    self.question.date = date;
+    self.sut.date = date;
     
     // then
-    assertThat(self.question.date, is(equalTo(date)));
+    assertThat(self.sut.date, is(equalTo(date)));
 }
 
 - (void)testThatQuestionKeepsScore
 {
     // when
-    self.question.score = 42;
+    self.sut.score = 42;
     
     // then
-    assertThatInteger(self.question.score, equalToInteger(42));
+    assertThatInteger(self.sut.score, equalToInteger(42));
 }
 
 - (void)testQuestionKeepsTitle
 {
     // when
-    self.question.title = @"Do iPhone also dream of electric sheep?";
+    self.sut.title = @"Do iPhone also dream of electric sheep?";
     
     // then
-    assertThat(self.question.title, equalTo(@"Do iPhone also dream of electric sheep?"));
+    assertThat(self.sut.title, equalTo(@"Do iPhone also dream of electric sheep?"));
 }
 
 - (void)testThatAnswersReturnAnNSArray
 {
-    assertThat(self.question.answers, notNilValue());
-    assertThat(self.question.answers, instanceOf([NSArray class]));
+    assertThat(self.sut.answers, notNilValue());
+    assertThat(self.sut.answers, instanceOf([NSArray class]));
 }
 
 - (void)testAddingAnswersIncrementsCountByThree
 {
     // then
-    assertThatInteger(self.question.answers.count, equalToInteger(3));
+    assertThatInteger(self.sut.answers.count, equalToInteger(3));
 }
 
 - (void)testQuestionWasAskedBySomeone
 {
-    assertThat(self.question.asker, is(equalTo(self.asker)));
+    assertThat(self.sut.asker, is(equalTo(self.asker)));
 }
 
 - (void)testBuildingQuestionBodyWithNoDataCannotBeTried
 {
-    STAssertThrows([self.question fillInDetailsFromJSON:nil], @"Not receiving data should have been handled earlier");
+    STAssertThrows([self.sut fillInDetailsFromJSON:nil], @"Not receiving data should have been handled earlier");
 }
 
 - (void)testNonJSONDataDoesNotCauseABodyToBeAddedToAQuestion
@@ -174,10 +174,10 @@ static NSString *questionJSON = @"{"
     NSString *stringIsNotJSON = @"Not JSON";
     
     // when
-    [self.question fillInDetailsFromJSON:stringIsNotJSON];
+    [self.sut fillInDetailsFromJSON:stringIsNotJSON];
     
     // then
-    assertThat(self.question.body, is(nilValue()));
+    assertThat(self.sut.body, is(nilValue()));
 }
 
 - (void)testJSONWhichDoesNotContainABodyDoesNotCauseBodyToBeAdded
@@ -186,19 +186,19 @@ static NSString *questionJSON = @"{"
     NSString *noQuestionsJSONString = @"{ \"noquestions\": true }";
     
     // when
-    [self.question fillInDetailsFromJSON:noQuestionsJSONString];
+    [self.sut fillInDetailsFromJSON:noQuestionsJSONString];
     
     // then
-    assertThat(self.question.body, is(nilValue()));
+    assertThat(self.sut.body, is(nilValue()));
 }
 
 - (void)testBodyContainedInJSONIsAddedToQuestion
 {
     // when
-    [self.question fillInDetailsFromJSON:questionJSON];
+    [self.sut fillInDetailsFromJSON:questionJSON];
     
     // then
-    assertThat(self.question.body, is(equalTo(@"<p>I've been trying to use persistent keychain references.</p>")));
+    assertThat(self.sut.body, is(equalTo(@"<p>I've been trying to use persistent keychain references.</p>")));
 }
 
 @end

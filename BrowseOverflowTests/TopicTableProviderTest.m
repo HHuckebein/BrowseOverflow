@@ -51,6 +51,7 @@
 {
     _sut = nil;
     _mockTableView = nil;
+    _receivedTopic = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super tearDown];

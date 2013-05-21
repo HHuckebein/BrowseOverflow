@@ -23,7 +23,7 @@
 
 
 @interface AnswerTest : SenTestCase
-@property (nonatomic, strong) Answer *answer;
+@property (nonatomic, strong) Answer *sut;
 @property (nonatomic, strong) Answer *anotherAnswer;
 @end
 
@@ -35,9 +35,9 @@
 - (void)setUp
 {
     [super setUp];
-    self.answer = [[Answer alloc] init];
-    self.answer.person = [[Person alloc] initWithName:@"Graham Lee" avatarLocation:@"http://example.com/avatar.png"];
-    self.answer.score = 42;
+    self.sut = [[Answer alloc] init];
+    self.sut.person = [[Person alloc] initWithName:@"Graham Lee" avatarLocation:@"http://example.com/avatar.png"];
+    self.sut.score = 42;
     
     self.anotherAnswer = [[Answer alloc] init];
     self.anotherAnswer.score = 42;
@@ -45,39 +45,41 @@
 
 - (void)tearDown
 {
-    _answer = nil;
+    _sut = nil;
+    _anotherAnswer = nil;
+    
     [super tearDown];
 }
 
 - (void)testAnswerHasSomeText
 {
-    assertThat(self.answer.text, equalTo(@""));
+    assertThat(self.sut.text, equalTo(@""));
 }
 
 - (void)testThatAnswersNotAcceptedByDefault
 {
-    assertThatBool(self.answer.accepted, equalToBool(FALSE));
+    assertThatBool(self.sut.accepted, equalToBool(FALSE));
 }
 
 - (void)testSomeoneProvidedTheAnswer
 {
-    assertThat(self.answer.person, is(notNilValue()));
-    assertThat(self.answer.person, instanceOf([Person class]));
+    assertThat(self.sut.person, is(notNilValue()));
+    assertThat(self.sut.person, instanceOf([Person class]));
 }
 
 - (void)testDefaultAnswerCompareReturnsNSOrderedSame
 {
-    assertThatInteger([self.answer compare:self.anotherAnswer], equalToInteger(NSOrderedSame));
+    assertThatInteger([self.sut compare:self.anotherAnswer], equalToInteger(NSOrderedSame));
 }
 
 - (void)testAnswerCompareWithEqualAcceptValuesReturnsNSOrderedSame
 {
     // when
-    self.answer.accepted = TRUE;
+    self.sut.accepted = TRUE;
     self.anotherAnswer.accepted = TRUE;
     
     // then
-    assertThatInteger([self.answer compare:self.anotherAnswer], equalToInteger(NSOrderedSame));
+    assertThatInteger([self.sut compare:self.anotherAnswer], equalToInteger(NSOrderedSame));
 }
 
 - (void)testAcceptedAnswerComesBeforeUnaccepted
@@ -86,18 +88,18 @@
     self.anotherAnswer.accepted = TRUE;
     
     // then
-    assertThatInteger([self.answer compare:self.anotherAnswer], equalToInteger(NSOrderedAscending));
-    assertThatInteger([self.anotherAnswer compare:self.answer], equalToInteger(NSOrderedDescending));
+    assertThatInteger([self.sut compare:self.anotherAnswer], equalToInteger(NSOrderedAscending));
+    assertThatInteger([self.anotherAnswer compare:self.sut], equalToInteger(NSOrderedDescending));
 }
 
 - (void)testLowerScoringAnswerComesAfterHigher
 {
     // when
-    self.anotherAnswer.score = self.answer.score + 10;
+    self.anotherAnswer.score = self.sut.score + 10;
     
     // then
-    assertThatInteger([self.answer compare:self.anotherAnswer], equalToInteger(NSOrderedAscending));
-    assertThatInteger([self.anotherAnswer compare:self.answer], equalToInteger(NSOrderedDescending));
+    assertThatInteger([self.sut compare:self.anotherAnswer], equalToInteger(NSOrderedAscending));
+    assertThatInteger([self.anotherAnswer compare:self.sut], equalToInteger(NSOrderedDescending));
 }
 
 @end

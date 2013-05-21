@@ -18,7 +18,6 @@
 
 @implementation MockStackOverflowManagerDelegate
 
-
 - (void)fetchingQuestionsFailedWithError:(NSError *)error
 {
     self.fetchedError = error;

@@ -23,7 +23,7 @@
 
 
 @interface StackOverflowCommunicatorTest : SenTestCase
-@property (nonatomic, strong) StackOverflowCommunicator             *communicator;
+@property (nonatomic, strong) StackOverflowCommunicator             *sut;
 @property (nonatomic, strong) NoNetworkStackOverflowCommunicator    *nnCommunicator;
 @property (nonatomic, strong) StackOverflowManager                  *mockManager;
 @property (nonatomic, strong) NSURLResponse                         *mockResponse;
@@ -38,7 +38,7 @@
 - (void)setUp
 {
     [super setUp];
-    self.communicator = [[StackOverflowCommunicator alloc] init];
+    self.sut = [[StackOverflowCommunicator alloc] init];
 
     self.mockManager = mockObjectAndProtocol([StackOverflowManager class], @protocol(StackOverflowCommunicatorDelegate));
 
@@ -52,7 +52,7 @@
 
 - (void)tearDown
 {
-    _communicator = nil;
+    _sut = nil;
     _nnCommunicator = nil;
     [super tearDown];
 }
@@ -61,52 +61,52 @@
 - (void)testSearchingForQuestionsOnTopicCallsTopicAPI
 {
     // when
-    [self.communicator searchForQuestionsWithTag:@"ios"];
+    [self.sut searchForQuestionsWithTag:@"ios"];
     
     // then
-    assertThat([self.communicator.fetchingURL absoluteString], is(equalTo(@"http://api.stackoverflow.com/1.1/search?tagged=ios&pagesize=20")));
+    assertThat([self.sut.fetchingURL absoluteString], is(equalTo(@"http://api.stackoverflow.com/1.1/search?tagged=ios&pagesize=20")));
 }
 
 - (void)testFillingInQuestionBodyCallsQuestionAPI
 {
     // when
-    [self.communicator downloadInformationForQuestionWithID:12345];
+    [self.sut downloadInformationForQuestionWithID:12345];
     
     // then
-    assertThat([self.communicator.fetchingURL absoluteString], is(equalTo(@"http://api.stackoverflow.com/1.1/questions/12345?body=true")));
+    assertThat([self.sut.fetchingURL absoluteString], is(equalTo(@"http://api.stackoverflow.com/1.1/questions/12345?body=true")));
 }
 
 - (void)testFetchingAnswersToQuestionCallsQuestionAPI
 {
     // when
-    [self.communicator downloadAnswersToQuestionWithID:12345];
+    [self.sut downloadAnswersToQuestionWithID:12345];
     
     // then
-    assertThat([self.communicator.fetchingURL absoluteString], is(equalTo(@"http://api.stackoverflow.com/1.1/questions/12345/answers?body=true")));
+    assertThat([self.sut.fetchingURL absoluteString], is(equalTo(@"http://api.stackoverflow.com/1.1/questions/12345/answers?body=true")));
 }
 
 - (void)testSearchingForQuestionsCreatesURLConnection
 {
     // when
-    [self.communicator searchForQuestionsWithTag:@"ios"];
+    [self.sut searchForQuestionsWithTag:@"ios"];
     
     // then
-    assertThat(self.communicator.fetchingConnection, is(notNilValue()));
-    [self.communicator cancelAndDiscardURLConnection];
+    assertThat(self.sut.fetchingConnection, is(notNilValue()));
+    [self.sut cancelAndDiscardURLConnection];
 }
 
 
 - (void)testStartingNewSearchThrowsOutOldConnection
 {
     // when
-    [self.communicator searchForQuestionsWithTag:@"ios"];
+    [self.sut searchForQuestionsWithTag:@"ios"];
     
-    NSURLConnection *firstConnection = [self.communicator fetchingConnection];
-    [self.communicator searchForQuestionsWithTag:@"cocoa"];
+    NSURLConnection *firstConnection = [self.sut fetchingConnection];
+    [self.sut searchForQuestionsWithTag:@"cocoa"];
     
     // then
-    assertThat(self.communicator.fetchingConnection, isNot(equalTo(firstConnection)));
-    [self.communicator cancelAndDiscardURLConnection];
+    assertThat(self.sut.fetchingConnection, isNot(equalTo(firstConnection)));
+    [self.sut cancelAndDiscardURLConnection];
 }
 
 - (void)testReceivingResponseDiscardsExistingData

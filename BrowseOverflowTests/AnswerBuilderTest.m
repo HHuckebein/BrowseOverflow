@@ -25,7 +25,7 @@
 
 
 @interface AnswerBuilderTest : SenTestCase
-@property (nonatomic, strong) AnswerBuilder *answerBuilder;
+@property (nonatomic, strong) AnswerBuilder *sut;
 @property (nonatomic, strong) Question *question;
 @end
 
@@ -70,20 +70,22 @@ static NSString *const noAnswerContentJSON = @"{ \"noanswers\": true }";
 - (void)setUp
 {
     [super setUp];
-    self.answerBuilder = [[AnswerBuilder alloc] init];
+    self.sut = [[AnswerBuilder alloc] init];
     self.question = [[Question alloc] init];
     self.question.questionID = 12345;
 }
 
 - (void)tearDown
 {
-    _answerBuilder = nil;
+    _sut = nil;
+    _question = nil;
+    
     [super tearDown];
 }
 
 - (void)testThatSendingNilJSONIsNotAnOption
 {
-    STAssertThrows([self.answerBuilder addAnswersToQuestion:self.question fromJSON:nil error:NULL], @"A nil JSON is not allowed");
+    STAssertThrows([self.sut addAnswersToQuestion:self.question fromJSON:nil error:NULL], @"A nil JSON is not allowed");
 }
 
 - (void)testThatAddingAnswersToNilQuestionIsNotAllowed
@@ -92,7 +94,7 @@ static NSString *const noAnswerContentJSON = @"{ \"noanswers\": true }";
     
     
     // then
-    STAssertThrows([self.answerBuilder addAnswersToQuestion:nil fromJSON:fakeJSON error:NULL], @"Adding answers to a nil question is not supported");
+    STAssertThrows([self.sut addAnswersToQuestion:nil fromJSON:fakeJSON error:NULL], @"Adding answers to a nil question is not supported");
 }
 
 
@@ -102,7 +104,7 @@ static NSString *const noAnswerContentJSON = @"{ \"noanswers\": true }";
     NSError *error = nil;
     
     // then
-    assertThatBool([self.answerBuilder addAnswersToQuestion:self.question fromJSON:fakeJSON error:&error], is(equalToBool(FALSE)));
+    assertThatBool([self.sut addAnswersToQuestion:self.question fromJSON:fakeJSON error:&error], is(equalToBool(FALSE)));
     assertThat([error domain], is(equalTo(@"AnswerBuilderErrorDomain")));
 }
 
@@ -112,7 +114,7 @@ static NSString *const noAnswerContentJSON = @"{ \"noanswers\": true }";
     NSError *error = nil;
     
     // when
-    [self.answerBuilder addAnswersToQuestion:self.question fromJSON:fakeJSON error:&error];
+    [self.sut addAnswersToQuestion:self.question fromJSON:fakeJSON error:&error];
     
     // then
     assertThatInteger([error code], is(equalToInteger(AnswerBuilderInvalidJSONError)));
@@ -124,7 +126,7 @@ static NSString *const noAnswerContentJSON = @"{ \"noanswers\": true }";
     NSError *error = nil;
     
     // when
-    [self.answerBuilder addAnswersToQuestion:self.question fromJSON:fakeJSON error:&error];
+    [self.sut addAnswersToQuestion:self.question fromJSON:fakeJSON error:&error];
     
     // then
     assertThat([error userInfo], is(notNilValue()));
@@ -132,7 +134,7 @@ static NSString *const noAnswerContentJSON = @"{ \"noanswers\": true }";
 
 - (void)testErrorParameterMayBeNULL
 {
-    STAssertNoThrow([self.answerBuilder addAnswersToQuestion:self.question fromJSON:fakeJSON error:NULL], @"AnswerBuilder should handle a NULL pointer gracefully");
+    STAssertNoThrow([self.sut addAnswersToQuestion:self.question fromJSON:fakeJSON error:NULL], @"AnswerBuilder should handle a NULL pointer gracefully");
 }
 
 - (void)testAddingRealAnswerJSONIsNotAnError
@@ -141,7 +143,7 @@ static NSString *const noAnswerContentJSON = @"{ \"noanswers\": true }";
     NSError *error = nil;
     
     // then
-    assertThatBool([self.answerBuilder addAnswersToQuestion:self.question fromJSON:realAnswerJSON error:&error], is(equalToBool(TRUE)));
+    assertThatBool([self.sut addAnswersToQuestion:self.question fromJSON:realAnswerJSON error:&error], is(equalToBool(TRUE)));
 }
 
 - (void)testAddingRealAnswerWithNoContentReportsAnswerBuilderMissingDataError
@@ -150,7 +152,7 @@ static NSString *const noAnswerContentJSON = @"{ \"noanswers\": true }";
     NSError *error = nil;
     
     // when
-    [self.answerBuilder addAnswersToQuestion:self.question fromJSON:noAnswerContentJSON error:&error];
+    [self.sut addAnswersToQuestion:self.question fromJSON:noAnswerContentJSON error:&error];
     
     // then
     assertThatInteger([error code], is(equalToInteger(AnswerBuilderMissingDataError)));
@@ -162,7 +164,7 @@ static NSString *const noAnswerContentJSON = @"{ \"noanswers\": true }";
     NSError *error = nil;
     
     // when
-    [self.answerBuilder addAnswersToQuestion:self.question fromJSON:realAnswerJSON error:&error];
+    [self.sut addAnswersToQuestion:self.question fromJSON:realAnswerJSON error:&error];
     
     // then
     assertThatInteger(self.question.answers.count, is(equalToInteger(1)));
@@ -174,7 +176,7 @@ static NSString *const noAnswerContentJSON = @"{ \"noanswers\": true }";
     NSError *error = nil;
     
     // when
-    [self.answerBuilder addAnswersToQuestion:self.question fromJSON:realAnswerJSON error:&error];
+    [self.sut addAnswersToQuestion:self.question fromJSON:realAnswerJSON error:&error];
     
     Answer *answer = self.question.answers[0];
     
@@ -190,7 +192,7 @@ static NSString *const noAnswerContentJSON = @"{ \"noanswers\": true }";
     NSError *error = nil;
     
     // when
-    [self.answerBuilder addAnswersToQuestion:self.question fromJSON:realAnswerJSON error:&error];
+    [self.sut addAnswersToQuestion:self.question fromJSON:realAnswerJSON error:&error];
     
     Answer *answer = self.question.answers[0];
     Person *person = answer.person;
