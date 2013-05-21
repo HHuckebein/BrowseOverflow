@@ -37,6 +37,7 @@
 - (void)cancel
 {
     [self.connection cancel];
+    _connection = nil;
     _url = nil;
     _receivedData = nil;
 }
