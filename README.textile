@@ -16,13 +16,16 @@ You will see that the project uses storyboarding and more often property declara
 Here are the other things I changed
 
 h4. Provider vs. DataSource/Delegate
+
 When you work through the book you see that Graham developed a dataSource and delegate class and then merged the delegate methods into the dataSource class. The class is called ..DataSource.h/.m which I find isn't ideal.
 So the classes, as we need several provider, are all named following that naming convention (TopicTableDataSource -> TopicTableProvider). 
 
 h4. BrowseOverflowDelegate Protocol
+
 Instead of Graham's BrowseOverflowObjectConfiguration class I moved the code into the AppDelegate and created a protocol to have access to the StackOverflowManager, the AvatarStore and the initial topics array.
 
 h4. Moving methods
+
 I reduced the number of classes a bit moving methods into other classes.
 You wont find an AnswerBuilder class as the only method
 
