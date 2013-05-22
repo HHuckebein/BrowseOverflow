@@ -11,7 +11,6 @@
 #import "Topic.h"
 #import "QuestionBuilder.h"
 #import "Question.h"
-#import "AnswerBuilder.h"
 
 NSString *const StackOverflowManagerError = @"StackOverflowManagerError";
 
@@ -107,7 +106,7 @@ NSString *const StackOverflowManagerError = @"StackOverflowManagerError";
 {
     NSError *error = nil;
     
-    if ([self.answerBuilder addAnswersToQuestion:self.questionToFill fromJSON:objectNotation error:&error]) {
+    if ([self.questionToFill addAnswersFromJSON:objectNotation error:&error]) {
         [_delegate answersReceivedForQuestion:self.questionToFill];
         self.questionToFill = nil;
     }

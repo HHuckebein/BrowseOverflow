@@ -11,6 +11,7 @@
     // Collaborators
 #import "Answer.h"
 #import "Person.h"
+#import "Question+TestExtension.h"
 
     // Test support
 #import <SenTestingKit/SenTestingKit.h>
@@ -63,6 +64,39 @@ static NSString *questionJSON = @"{"
 @"}"
 @"]"
 @"}";
+
+static NSString *const realAnswerJSON = @"{"
+@"\"total\": 1,"
+@"\"page\": 1,"
+@"\"pagesize\": 30,"
+@"\"answers\": ["
+@"{"
+@"\"answer_id\": 3231900,"
+@"\"accepted\": true,"
+@"\"answer_comments_url\": \"/answers/3231900/comments\","
+@"\"question_id\": 2817980,"
+@"\"owner\": {"
+@"\"user_id\": 266380,"
+@"\"user_type\": \"registered\","
+@"\"display_name\": \"dmaclach\","
+@"\"reputation\": 151,"
+@"\"email_hash\": \"d96ae876eac0075727243a10fab823b3\""
+@"},"
+@"\"creation_date\": 1278965736,"
+@"\"last_activity_date\": 1278965736,"
+@"\"up_vote_count\": 1,"
+@"\"down_vote_count\": 0,"
+@"\"view_count\": 0,"
+@"\"score\": 3,"
+@"\"community_owned\": false,"
+@"\"title\": \"Why does Keychain Services return the wrong keychain content?\","
+@"\"body\": \"<p>Turns out that using the kSecMatchItemList doesn't appear to work at all. </p>\""
+@"}"
+@"]"
+@"}";
+
+static NSString *const fakeJSON = @"Fake JSON";
+static NSString *const noAnswerContentJSON = @"{ \"noanswers\": true }";
 
 @implementation QuestionTest
 {
@@ -230,6 +264,117 @@ static NSString *questionJSON = @"{"
     
     // then
     assertThatInteger([self.sut compare:question1], is(equalToInteger(NSOrderedDescending)));
+}
+
+- (void)testThatSendingNilJSONIsNotAnOption
+{
+    STAssertThrows([self.sut addAnswersFromJSON:nil error:NULL], @"A nil JSON is not allowed");
+}
+
+- (void)testSendingNonJSONIsAnErrorWithAnswerBuilderErrorDomain
+{
+    // given
+    NSError *error = nil;
+    
+    // then
+    assertThatBool([self.sut addAnswersFromJSON:fakeJSON error:&error], is(equalToBool(FALSE)));
+    assertThat([error domain], is(equalTo(@"AnswerBuilderErrorDomain")));
+}
+
+- (void)testSendingNonJSONIsAnErrorWithAnswerBuilderInvalidJSONErrorCode
+{
+    // given
+    NSError *error = nil;
+    
+    // when
+    [self.sut addAnswersFromJSON:fakeJSON error:&error];
+    
+    // then
+    assertThatInteger([error code], is(equalToInteger(AnswerBuilderInvalidJSONError)));
+}
+
+- (void)testSendingNonJSONReportsUnderlyingError
+{
+    // given
+    NSError *error = nil;
+    
+    // when
+    [self.sut addAnswersFromJSON:fakeJSON error:&error];
+    
+    // then
+    assertThat([error userInfo], is(notNilValue()));
+}
+
+- (void)testErrorParameterMayBeNULL
+{
+    STAssertNoThrow([self.sut addAnswersFromJSON:fakeJSON error:NULL], @"AnswerBuilder should handle a NULL pointer gracefully");
+}
+
+- (void)testAddingRealAnswerJSONIsNotAnError
+{
+    // given
+    NSError *error = nil;
+    
+    // then
+    assertThatBool([self.sut addAnswersFromJSON:realAnswerJSON error:&error], is(equalToBool(TRUE)));
+}
+
+- (void)testAddingRealAnswerWithNoContentReportsAnswerBuilderMissingDataError
+{
+    // given
+    NSError *error = nil;
+    
+    // when
+    [self.sut addAnswersFromJSON:noAnswerContentJSON error:&error];
+    
+    // then
+    assertThatInteger([error code], is(equalToInteger(AnswerBuilderMissingDataError)));
+}
+
+- (void)testNumberOfAnswersAddedMatchNumberInData
+{
+    // given
+    NSError *error = nil;
+    
+    // when
+    [self.sut addAnswersFromJSON:realAnswerJSON error:&error];
+    
+    // then
+    assertThatInteger(self.sut.answers.count, is(equalToInteger(4)));
+}
+
+- (void)testAnswerPropertiesMatchDataReceived
+{
+    // given
+    NSError *error = nil;
+    NSString *body = @"<p>Turns out that using the kSecMatchItemList doesn't appear to work at all. </p>";
+    
+    // when
+    [self.sut addAnswersFromJSON:realAnswerJSON error:&error];
+    
+    Answer *answer = [self.sut answerWithText:body];
+    
+    // then
+    assertThat(answer.text, is(equalTo(body)));
+    assertThatInteger(answer.score, is(equalToInteger(3)));
+    assertThatBool(answer.accepted, is(equalToBool(TRUE)));
+}
+
+- (void)testAnswerIsProvidedByExpectedPerson
+{
+    // given
+    NSError *error = nil;
+    NSString *body = @"<p>Turns out that using the kSecMatchItemList doesn't appear to work at all. </p>";
+    
+    // when
+    [self.sut addAnswersFromJSON:realAnswerJSON error:&error];
+    
+    Answer *answer = [self.sut answerWithText:body];
+    Person *person = answer.person;
+    
+    // then
+    assertThat(person.name, is(equalTo(@"dmaclach")));
+    assertThat([person.avatarURL absoluteString], is(equalTo(@"http://www.gravatar.com/avatar/d96ae876eac0075727243a10fab823b3")));
 }
 
 @end

@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const AnswerBuilderErrorDomain;
+
+NS_ENUM(NSUInteger, AnswerBuilderError) {
+    AnswerBuilderInvalidJSONError,
+    AnswerBuilderMissingDataError
+};
+
+
 @class Answer, Person;
 
 @interface Question : NSObject
@@ -23,6 +31,8 @@
 - (void)addAnswer:(Answer *)answer;
 
 - (void)fillInDetailsFromJSON:(NSString *)objectNotation;
+
+- (BOOL)addAnswersFromJSON:(NSString *)objectNotation error:(NSError **)error;
 
 - (NSString *)description;
 - (NSComparisonResult)compare:(Question *)question;

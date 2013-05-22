@@ -24,7 +24,6 @@
     return self;
 }
 
-
 - (void)addQuestion:(Question *)question
 {
     if ([self containsQuestion:question] == FALSE) {
@@ -47,11 +46,7 @@
 - (BOOL)containsQuestion:(Question *)question
 {
     NSUInteger index = [self.recentQuestions indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-        Question *aQuestion = (Question *)obj;
-        BOOL isSame = [aQuestion compare:question] == NSOrderedSame ? TRUE : FALSE;
-        *stop = isSame;
-        
-        return isSame;
+        return [(Question *)obj compare:question] == NSOrderedSame;
     }];
     
     if (index == NSNotFound) {

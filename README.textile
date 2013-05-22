@@ -1,15 +1,117 @@
-h2. BrowseOverflow
+h2. BrowseOverflow using OCHamcrest/OCMockito
 
-h3. Usage
+I recently came to Graham Lee's book Test-Driven iOS Development when looking when searching for an in-depth look on unit testing.
+Graham's Book doesn't make use of mock objects but using what is coming with every Xcode installation - OCUnit.
 
-BrowseOverflowDelegate Protocol
-moved to question class 
-method swizzeling / partial mock
-notifications
-category for testing
-perform
-h3. Versioning
+The unit testing environment lacks mock object, so as soon as you start to dive into test driven development you have to choose your tools.
+I've decided to start with John Reid's OCHamcrest/OCMockito and though I found it sometimes difficult to achieve what I needed, I finally was able to work through the books example without greater problems.
+I even found a rather bad coding style on my side. So thinking about testing in the first place makes you more thinking about your design and coding style in the first place too.
 
-h3. License
+If you haven't done unit testing before I strongly recommend the excellent screen casts John made on http://www.qualitycoding.org.
 
-Usage is provided under the [MIT licence](http://http://opensource.org/licenses/MIT). See LICENCE for the full details.
+http://www.amazon.com/gp/product/0321774183/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0321774183&linkCode=as2&tag=qualitycoding-20
+
+h3. What has changed
+
+In short - especially using OCHamcrest/OCMockito made the test code shorter and therefor easier to read.
+You will see that the project uses storyboarding and more often property declarations and the automatic synthesize behavior. So I even deleted some of the tests where only setter behavior was tested (e.g. testAnswerHasSomeText in AnswerTest.m).
+Here are the other things I changed
+
+h4. Provider vs. DataSource/Delegate
+When you work through the book you see that Graham developed a dataSource and delegate class and then merged the delegate methods into the dataSource class. The class is called ..DataSource.h/.m which I find isn't ideal.
+So the classes, as we need several provider, are all named following that naming convention (TopicTableDataSource -> TopicTableProvider). 
+
+h4. BrowseOverflowDelegate Protocol
+Instead of Graham's BrowseOverflowObjectConfiguration class I moved the code into the AppDelegate and created a protocol to have access to the StackOverflowManager, the AvatarStore and the initial topics array.
+
+h4. Moving methods
+I reduced the number of classes a bit moving methods into other classes.
+You wont find an AnswerBuilder class as the only method
+
+<pre><code>
+	- (BOOL)addAnswersToQuestion:(Question *)question fromJSON: (NSString *)objectNotation error: (NSError **)error;
+</code></pre>
+
+seemed to me better placed into the Question class as
+
+<pre><code>
+	- (BOOL)addAnswersFromJSON: (NSString *)objectNotation error: (NSError **)error;
+</code></pre>
+
+The same happened to 
+
+<pre><code>
+	- (void)fillInDetailsForQuestion: (Question *)question fromJSON: (NSString *)objectNotation;
+</code></pre>
+
+from QuestionBuilder class, which I renamed to 
+
+<pre><code>
+	- (void)fillInDetailsFromJSON: (NSString *)objectNotation;
+</code></pre>
+
+thus removing some test as well.
+
+h4. Performing actions on private methods
+
+For testing purposes you sometimes need to have access to an otherwise private method or instance variable and you feel uncomfortable for exposing it.
+Well, you can always use
+<pre><code>
+	[Object valueForKey:key]
+</code></pre>
+
+or
+
+<pre><code>
+	[Object performSelector:withObject];
+</code></pre>
+
+h3. Where to go from here
+
+As Graham pointed out on page 199 the app doesn't work as one might expect. If you browse the same topic twice you find the same questions added again to the list.
+At least this problem can be easily solved by adding only questions to the recentQuestions array if they are not already part of by examining the questionID.
+
+I extended the QuestionTest class by three additional test
+
+<pre><code>
+	- (void)testCompareForQuestionsWithIdenticalQuestionIDReturnsNSOrderedSame
+	- (void)testCompareForQuestionsWithDifferentQuestionIDsReturnNSOrderesAscending
+	- (void)testCompareForQuestionsWithDifferentQuestionIDsReturnNSOrderedDescending
+</code></pre>
+
+plus extending the Question class with
+
+<pre><code>
+	- (NSComparisonResult)compare:(Question *)question
+	{
+		NSComparisonResult result = NSOrderedAscending;
+		if (self.questionID == question.questionID) {
+			result = NSOrderedSame;
+		}
+		else if (self.questionID > question.questionID) {
+			result = NSOrderedDescending;
+		}
+		
+		return  result;
+	}
+</code></pre>
+
+and the Topic class with
+
+<pre><code>
+	- (BOOL)containsQuestion:(Question *)question
+	{
+		NSUInteger index = [self.recentQuestions indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+			return [(Question *)obj compare:question] == NSOrderedSame;
+		}];
+	
+		if (index == NSNotFound) {
+			return FALSE;
+		}
+		else {
+			return TRUE;
+		}
+	}
+</code></pre>
+
+so before adding a new question to the list we can check if it is already part of the current list and skip adding if it is.

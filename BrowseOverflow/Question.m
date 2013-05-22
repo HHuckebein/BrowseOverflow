@@ -7,6 +7,10 @@
 //
 
 #import "Question.h"
+#import "Person.h"
+#import "Answer.h"
+
+NSString *const AnswerBuilderErrorDomain = @"AnswerBuilderErrorDomain";
 
 @interface Question()
 @property (nonatomic, strong) NSMutableSet *answerSet;
@@ -55,6 +59,46 @@
     NSString *questionBody = [parsedObject[@"questions"] lastObject][@"body"];
     if (questionBody) {
         self.body = questionBody;
+    }
+}
+
+- (BOOL)addAnswersFromJSON:(NSString *)objectNotation error:(NSError **)error
+{
+    NSParameterAssert(objectNotation != nil);
+    
+    NSData *unicodeNotation = [objectNotation dataUsingEncoding: NSUTF8StringEncoding];
+    NSError *localError = nil;
+    NSDictionary *answerData = [NSJSONSerialization JSONObjectWithData:unicodeNotation options: 0  error: &localError];
+    if (answerData == nil) {
+        if (error) {
+            if (localError != nil) {
+                *error = [NSError errorWithDomain:AnswerBuilderErrorDomain
+                                             code:AnswerBuilderInvalidJSONError
+                                         userInfo:@{NSUnderlyingErrorKey : localError}];
+            }
+            return FALSE;
+        }
+        return FALSE;
+    }
+    else {
+        NSArray *answers = answerData[@"answers"];
+        if (nil == answers) {
+            *error = [NSError errorWithDomain:AnswerBuilderErrorDomain code:AnswerBuilderMissingDataError userInfo:nil];
+            return FALSE;
+            
+        }
+        
+        for (NSDictionary *answerDict in answers) {
+            Answer *thisAnswer = [Answer answerFromAnswerDictionary:answerDict];
+            
+            NSDictionary *ownerDict = answerDict[@"owner"];
+            thisAnswer.person = [Person personFromOwnerDictionary:ownerDict];
+            
+            [self addAnswer:thisAnswer];
+        }
+        
+        return TRUE;
+        
     }
 }
 

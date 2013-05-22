@@ -10,7 +10,6 @@
 #import "StackOverflowManager.h"
 #import "StackOverflowCommunicator.h"
 #import "QuestionBuilder.h"
-#import "AnswerBuilder.h"
 #import "AvatarStore.h"
 #import "Topic.h"
 
@@ -67,7 +66,6 @@
         manager.bodyCommunicator = [[StackOverflowCommunicator alloc] init];
         manager.bodyCommunicator.delegate = manager;
         manager.questionBuilder = [[QuestionBuilder alloc] init];
-        manager.answerBuilder = [[AnswerBuilder alloc] init];
     });
     return manager;
 }
