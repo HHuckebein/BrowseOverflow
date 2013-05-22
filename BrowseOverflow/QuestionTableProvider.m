@@ -19,7 +19,7 @@ NSString *const questionCellReuseIdentifier = @"QuestionCellStyle";
 NSString *const placeholderCellReuseIdentifier = @"BasicStyle";
 
 @interface QuestionTableProvider()
-@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) UITableView *tableView;
 @property (nonatomic, weak) id <BrowseOverflowDelegate> delegate;
 @end
 

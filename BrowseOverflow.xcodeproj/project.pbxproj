@@ -29,7 +29,6 @@
 		735FE18C172E5542007AF6BB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 735FE18B172E5542007AF6BB /* Default-568h@2x.png */; };
 		735FE18F172E5542007AF6BB /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 735FE18D172E5542007AF6BB /* MainStoryboard.storyboard */; };
 		735FE192172E5542007AF6BB /* BrowseOverflowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 735FE191172E5542007AF6BB /* BrowseOverflowViewController.m */; };
-		735FE195172E5542007AF6BB /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 735FE194172E5542007AF6BB /* DetailViewController.m */; };
 		735FE19D172E5542007AF6BB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735FE19C172E5542007AF6BB /* SenTestingKit.framework */; };
 		735FE19E172E5542007AF6BB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735FE175172E5542007AF6BB /* UIKit.framework */; };
 		735FE19F172E5542007AF6BB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735FE177172E5542007AF6BB /* Foundation.framework */; };
@@ -111,8 +110,6 @@
 		735FE18E172E5542007AF6BB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		735FE190172E5542007AF6BB /* BrowseOverflowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BrowseOverflowViewController.h; sourceTree = "<group>"; };
 		735FE191172E5542007AF6BB /* BrowseOverflowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrowseOverflowViewController.m; sourceTree = "<group>"; };
-		735FE193172E5542007AF6BB /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		735FE194172E5542007AF6BB /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		735FE19B172E5542007AF6BB /* BrowseOverflowTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BrowseOverflowTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		735FE19C172E5542007AF6BB /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		735FE1A4172E5542007AF6BB /* BrowseOverflowTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BrowseOverflowTests-Info.plist"; sourceTree = "<group>"; };
@@ -229,15 +226,12 @@
 		735FE17B172E5542007AF6BB /* BrowseOverflow */ = {
 			isa = PBXGroup;
 			children = (
+				735FE18D172E5542007AF6BB /* MainStoryboard.storyboard */,
 				73F3EE2C174CAA0200FE177F /* BrowseOverflowDelegate.h */,
 				735FE184172E5542007AF6BB /* AppDelegate.h */,
 				735FE185172E5542007AF6BB /* AppDelegate.m */,
-				735FE18D172E5542007AF6BB /* MainStoryboard.storyboard */,
 				735FE190172E5542007AF6BB /* BrowseOverflowViewController.h */,
 				735FE191172E5542007AF6BB /* BrowseOverflowViewController.m */,
-				735FE193172E5542007AF6BB /* DetailViewController.h */,
-				735FE194172E5542007AF6BB /* DetailViewController.m */,
-				735FE17C172E5542007AF6BB /* Supporting Files */,
 				735FE1CA172EA71B007AF6BB /* Answer.h */,
 				735FE1CB172EA71B007AF6BB /* Answer.m */,
 				73EB3F48174BAA72009380D7 /* AnswerCell.h */,
@@ -271,6 +265,7 @@
 				735FE1BA172E565B007AF6BB /* Topic.m */,
 				73705ECB1742201000A0B87D /* TopicTableProvider.h */,
 				73705ECC1742201000A0B87D /* TopicTableProvider.m */,
+				735FE17C172E5542007AF6BB /* Supporting Files */,
 			);
 			path = BrowseOverflow;
 			sourceTree = "<group>";
@@ -451,7 +446,6 @@
 				735FE182172E5542007AF6BB /* main.m in Sources */,
 				735FE186172E5542007AF6BB /* AppDelegate.m in Sources */,
 				735FE192172E5542007AF6BB /* BrowseOverflowViewController.m in Sources */,
-				735FE195172E5542007AF6BB /* DetailViewController.m in Sources */,
 				735FE1BB172E565B007AF6BB /* Topic.m in Sources */,
 				735FE1C0172E6468007AF6BB /* Question.m in Sources */,
 				735FE1C5172E727C007AF6BB /* Person.m in Sources */,

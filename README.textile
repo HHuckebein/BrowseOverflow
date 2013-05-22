@@ -9,8 +9,6 @@ I even found a rather bad coding style on my side. So thinking about testing in 
 
 If you haven't done unit testing before I strongly recommend the excellent screen casts John made on http://www.qualitycoding.org.
 
-
-
 h3. What has changed
 
 In short - especially using OCHamcrest/OCMockito made the test code shorter and therefor easier to read.
@@ -66,6 +64,10 @@ or
 	[Object performSelector:withObject];
 </code></pre>
 
+h4. Added Methods
+
+I wrote for most of the classes a description method, so that you can easily log things. I also used methods to display localized content for numbers as the recommended ways. This is also an interesting point when you unit test your user interface.
+
 h3. Where to go from here
 
 As Graham pointed out on page 199 the app doesn't work as one might expect. If you browse the same topic twice you find the same questions added again to the recentQuestions list.
@@ -116,6 +118,10 @@ and the Topic class with a method which returns TRUE if a question with a given 
 
 So before adding a new question to the list we can check if it is already part of the current list and skip adding if it is.
 
+Another point is that the app starts networking tasks to fetch the content for the table views. Here we have only the 20 most recent questions but it is worse thinking about how to stop an ongoing task when the user leaves that view or scrolls the table view cell away from the visible screen area.
+
+h3. Miscelleanous
+
 If you follow the books example page by page and write your tests and code together you might think that it takes a while before you see the app in action and you are right.
 In agile development one would define a User Stories e.g. When the app starts it should show a list of topics.
 As Jonathan Rasmusson in his book The Agile Samurai has put it, the user story shoud comply to INVEST (Independable, Negotiable, Valuable, Estimatable, Small, Testable).
@@ -125,4 +131,5 @@ Most likely you would have noticed that selecting a topic twice leads to adding 
 
 h3. Acknowledgments
 
-Thanks to Graham Lee and John Reid who gave me directions for my own projects and helped me to improve my skills.
+I read the book from Graham Lee and saw the screen casts for John Reid which gave me a lot of input to improve my skills - thanks for your awesome work.
+

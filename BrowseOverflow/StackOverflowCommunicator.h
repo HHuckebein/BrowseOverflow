@@ -15,7 +15,7 @@ extern NSString *const StackOverflowCommunicatorErrorDomain;
 
 @property (nonatomic, weak) id <StackOverflowCommunicatorDelegate> delegate;
 
-@property (nonatomic, strong, readonly) NSURL *fetchingURL;
+@property (nonatomic, strong, readonly) NSURL           *fetchingURL;
 @property (nonatomic, strong, readonly) NSURLConnection *fetchingConnection;
 
 - (void)searchForQuestionsWithTag:(NSString *)tag;

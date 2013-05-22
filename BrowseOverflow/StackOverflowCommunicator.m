@@ -13,12 +13,12 @@ typedef void (^SuccessHandler)(NSString *objectNotation);
 
 @interface StackOverflowCommunicator() 
 
-@property (nonatomic, strong) NSURL *fetchingURL;
-@property (nonatomic, strong) NSURLConnection *fetchingConnection;
-@property (nonatomic, strong) NSMutableData *mReceivedData;
+@property (nonatomic, strong) NSURL             *fetchingURL;
+@property (nonatomic, strong) NSURLConnection   *fetchingConnection;
+@property (nonatomic, strong) NSMutableData     *mReceivedData;
 
-@property (nonatomic, copy) ErrorHandler errorHandler;
-@property (nonatomic, copy) SuccessHandler successHandler;
+@property (nonatomic, copy) ErrorHandler         errorHandler;
+@property (nonatomic, copy) SuccessHandler      successHandler;
 
 @end
 

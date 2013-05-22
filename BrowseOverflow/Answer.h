@@ -11,15 +11,14 @@
 @class Person;
 
 @interface Answer : NSObject
-@property (nonatomic, copy) NSString                    *text;
+@property (nonatomic, copy  ) NSString                  *text;
 @property (nonatomic, strong) Person                    *person;
 @property (nonatomic, assign) NSInteger                 score;
 @property (nonatomic, assign, getter = isAccepted) BOOL accepted;
 
-- (NSComparisonResult)compare:(Answer *)anotherAnswer;
-
 + (id)answerFromAnswerDictionary:(NSDictionary *)answerDictionary;
 
+- (NSComparisonResult)compare:(Answer *)anotherAnswer;
 - (NSString *)description;
 
 @end
