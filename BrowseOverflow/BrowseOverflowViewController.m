@@ -34,6 +34,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if (nil == _provider) {
+        _provider = [[TopicTableProvider alloc] init];
+        ((TopicTableProvider *)_provider).topicsList = [[self delegate] topics];
+    }
+    
     self.tableView.dataSource = _provider;
     self.tableView.delegate = _provider;
     
@@ -61,7 +67,7 @@
     else if ([self.provider isKindOfClass:[QuestionDetailProvider class]]) {
         QuestionDetailProvider *provider = (QuestionDetailProvider *)self.provider;
         [[[self delegate] manager] fetchBodyForQuestion:provider.question];
-//        [[[self appDelegate] manager] fetchAnswersForQuestion:provider.question];
+        [[[self delegate] manager] fetchAnswersForQuestion:provider.question];
     }
 }
 

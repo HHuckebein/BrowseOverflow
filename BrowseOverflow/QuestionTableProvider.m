@@ -11,7 +11,7 @@
 #import "QuestionSummaryCell.h"
 #import "Question.h"
 #import "Person.h"
-#import "AppDelegate.h"
+#import "BrowseOverflowDelegate.h"
 #import "AvatarStore.h"
 
 NSString *const QuestionTableDidSelectQuestionNotification = @"QuestionTableDidSelectQuestionNotification";
@@ -20,22 +20,18 @@ NSString *const placeholderCellReuseIdentifier = @"BasicStyle";
 
 @interface QuestionTableProvider()
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) id <BrowseOverflowDelegate> delegate;
 @end
 
 @implementation QuestionTableProvider
 
 #pragma mark - AppDelegate
 
-- (AppDelegate *)appDelegate
-{
-    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
-}
-
 - (id)init
 {
     self = [super init];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(avatarStoreDidUpdateContent:) name:AvatarStoreDidUpdateContentNotification object:[self appDelegate].avatarStore];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(avatarStoreDidUpdateContent:) name:AvatarStoreDidUpdateContentNotification object:[self delegate].avatarStore];
     }
     return self;
 }
@@ -65,9 +61,9 @@ NSString *const placeholderCellReuseIdentifier = @"BasicStyle";
         cell.scoreLabel.text = [NSNumberFormatter localizedStringFromNumber:@(question.score) numberStyle:NSNumberFormatterDecimalStyle];
         cell.nameLabel.text = question.asker.name;
         
-        NSData *avatarData = [[[self appDelegate] avatarStore] dataForURL:question.asker.avatarURL];
+        NSData *avatarData = [[[self delegate] avatarStore] dataForURL:question.asker.avatarURL];
         if (nil == avatarData) {
-            avatarData = [[[self appDelegate] avatarStore] defaultData];
+            avatarData = [[[self delegate] avatarStore] defaultData];
         }
         cell.avatarView.image = [UIImage imageWithData:avatarData];
         
@@ -95,6 +91,16 @@ NSString *const placeholderCellReuseIdentifier = @"BasicStyle";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return self.topic.recentQuestions.count ? 80. : 44.;
+}
+
+#pragma mark - BrowseOverflowDelegate
+
+- (id)delegate
+{
+    if (nil == _delegate && [[[UIApplication sharedApplication] delegate] conformsToProtocol:@protocol(BrowseOverflowDelegate)]) {
+        _delegate = (id)[[UIApplication sharedApplication] delegate];
+    }
+    return _delegate;
 }
 
 @end

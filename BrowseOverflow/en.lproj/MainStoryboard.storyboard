@@ -60,7 +60,7 @@
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p7u-A8-et8" userLabel="Name Label">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="181" id="Cjh-jL-7Sc"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="181" type="user" id="Cjh-jL-7Sc"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -73,7 +73,7 @@
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GcR-tf-Tje" userLabel="Avatar Image">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="45" id="rP9-ee-5ax"/>
+                                                        <constraint firstAttribute="width" constant="44" id="ZOq-8D-hY4"/>
                                                         <constraint firstAttribute="height" constant="44" id="v9p-ud-qb2"/>
                                                     </constraints>
                                                 </imageView>
@@ -82,13 +82,13 @@
                                         </view>
                                         <constraints>
                                             <constraint firstItem="p7u-A8-et8" firstAttribute="bottom" secondItem="GcR-tf-Tje" secondAttribute="bottom" type="default" id="3VA-g4-aou"/>
-                                            <constraint firstItem="p7u-A8-et8" firstAttribute="leading" secondItem="GcR-tf-Tje" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="7X4-hr-BEq"/>
                                             <constraint firstItem="7uk-QU-Qy9" firstAttribute="baseline" secondItem="p7u-A8-et8" secondAttribute="baseline" type="default" id="8jF-SS-ZHo"/>
                                             <constraint firstAttribute="trailing" secondItem="7uk-QU-Qy9" secondAttribute="trailing" constant="20" type="default" id="Ccz-1G-nbV"/>
                                             <constraint firstItem="GcR-tf-Tje" firstAttribute="top" secondItem="zQD-tr-etD" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="G60-M2-wSM"/>
                                             <constraint firstItem="7uk-QU-Qy9" firstAttribute="leading" secondItem="p7u-A8-et8" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="J9j-ge-946"/>
                                             <constraint firstItem="zQD-tr-etD" firstAttribute="leading" secondItem="ged-Tk-ekz" secondAttribute="leading" constant="20" type="default" id="U4p-fp-tbu"/>
                                             <constraint firstItem="zQD-tr-etD" firstAttribute="top" secondItem="ged-Tk-ekz" secondAttribute="top" constant="2" id="i0n-tD-um7"/>
+                                            <constraint firstItem="GcR-tf-Tje" firstAttribute="leading" secondItem="ged-Tk-ekz" secondAttribute="leading" constant="16" id="lTT-IR-be0"/>
                                             <constraint firstAttribute="trailing" secondItem="zQD-tr-etD" secondAttribute="trailing" constant="20" type="default" id="pkn-nZ-o10"/>
                                         </constraints>
                                         <connections>
@@ -251,46 +251,6 @@
             <point key="canvasLocation" x="438" y="64"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="AnswerCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnswerCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="acceptedIndicator" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="bodyWebView" candidateClass="UIWebView"/>
-                <relationship kind="outlet" name="personAvatar" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="personName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="scoreLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="BrowseOverflowViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/BrowseOverflowViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="QuestionDetailCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/QuestionDetailCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="avatarView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="bodyWebView" candidateClass="UIWebView"/>
-                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="scoreLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="QuestionSummaryCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/QuestionSummaryCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="avatarView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="scoreLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

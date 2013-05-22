@@ -13,4 +13,5 @@
 @required
 - (AvatarStore *)avatarStore;
 - (StackOverflowManager *)manager;
+- (NSArray *)topics;
 @end

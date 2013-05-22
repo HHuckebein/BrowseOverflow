@@ -7,7 +7,7 @@
 //
 
 #import "QuestionDetailProvider.h"
-#import "AppDelegate.h"
+#import "BrowseOverflowDelegate.h"
 #import "QuestionDetailCell.h"
 #import "Question.h"
 #import "Person.h"
@@ -23,6 +23,10 @@ typedef NS_ENUM(NSUInteger, SectionIdentifier) {
 
 NSString *const questionDetailCellReuseIdentifier = @"QuestionDetailCellStyle";
 NSString *const answerCellReuseIdentifier = @"AnswerCellStyle";
+
+@interface QuestionDetailProvider()
+@property (nonatomic, weak) id <BrowseOverflowDelegate> delegate;
+@end
 
 @implementation QuestionDetailProvider
 
@@ -49,9 +53,9 @@ NSString *const answerCellReuseIdentifier = @"AnswerCellStyle";
             cell.scoreLabel.text = [NSNumberFormatter localizedStringFromNumber:@(self.question.score) numberStyle:NSNumberFormatterDecimalStyle];
             [cell.bodyWebView loadHTMLString:[self HTMLStringForSnippet:self.question.body] baseURL:nil];
             
-            NSData *avatarData = [[[self appDelegate] avatarStore] dataForURL:self.question.asker.avatarURL];
+            NSData *avatarData = [[[self delegate] avatarStore] dataForURL:self.question.asker.avatarURL];
             if (nil == avatarData) {
-                avatarData = [[[self appDelegate] avatarStore] defaultData];
+                avatarData = [[[self delegate] avatarStore] defaultData];
             }
             cell.avatarView.image = [UIImage imageWithData:avatarData];
             
@@ -69,7 +73,7 @@ NSString *const answerCellReuseIdentifier = @"AnswerCellStyle";
             
             Person *person = answer.person;
             cell.personName.text = person.name;
-            cell.personAvatar.image = [UIImage imageWithData:[[[self appDelegate] avatarStore] dataForURL:person.avatarURL]];
+            cell.personAvatar.image = [UIImage imageWithData:[[[self delegate] avatarStore] dataForURL:person.avatarURL]];
             [cell.bodyWebView loadHTMLString:[self HTMLStringForSnippet:answer.text] baseURL:nil];
             
             return cell;
@@ -108,11 +112,14 @@ NSString *const answerCellReuseIdentifier = @"AnswerCellStyle";
     return height;
 }
 
-#pragma mark - AppDelegate
+#pragma mark - BrowseOverflowDelegate
 
-- (AppDelegate *)appDelegate
+- (id)delegate
 {
-    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (nil == _delegate && [[[UIApplication sharedApplication] delegate] conformsToProtocol:@protocol(BrowseOverflowDelegate)]) {
+        _delegate = (id)[[UIApplication sharedApplication] delegate];
+    }
+    return _delegate;
 }
 
 @end
