@@ -39,7 +39,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"name %@, avatarURL %@", self.name, self.avatarURL];
+    return [NSString stringWithFormat:@"NAME:%@, avatarURL:%@", self.name, [self.avatarURL absoluteString]];
 }
 
 @end

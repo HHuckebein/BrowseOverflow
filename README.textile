@@ -2,6 +2,10 @@ h2. BrowseOverflow
 
 h3. Usage
 
+method swizzeling / partial mock
+notifications
+category for testing
+
 h3. Versioning
 
 h3. License

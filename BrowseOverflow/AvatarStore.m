@@ -13,7 +13,6 @@ NSString *const AvatarStoreDidUpdateContentNotification = @"AvatarStoreDidUpdate
 
 @interface AvatarStore()
 @property (nonatomic, strong) NSCache *dataCache;
-@property (nonatomic, strong) NSNotificationCenter *notificationCenter;
 @property (nonatomic, strong) NSOperationQueue *queue;
 @property (nonatomic, strong) NSMutableDictionary *communicators;
 @property (nonatomic, strong) NSData *defaultData;
@@ -68,14 +67,6 @@ NSString *const AvatarStoreDidUpdateContentNotification = @"AvatarStoreDidUpdate
     return _queue;
 }
 
-- (NSNotificationCenter *)notificationCenter
-{
-    if (nil == _notificationCenter) {
-        _notificationCenter = [NSNotificationCenter defaultCenter];
-    }
-    return _notificationCenter;
-}
-
 #pragma mark - GravatarCommunicatorDelegate
 
 - (void)communicatorReceivedData:(NSData *)data forURL:(NSURL *)url
@@ -84,7 +75,7 @@ NSString *const AvatarStoreDidUpdateContentNotification = @"AvatarStoreDidUpdate
     [self.communicators removeObjectForKey:[url absoluteString]];
     
     NSNotification *note = [NSNotification notificationWithName:AvatarStoreDidUpdateContentNotification object:self];
-    [self.notificationCenter postNotification:note];
+    [[NSNotificationCenter defaultCenter] postNotification:note];
 }
 
 - (void)communicatorGotErrorForURL:(NSURL *)url

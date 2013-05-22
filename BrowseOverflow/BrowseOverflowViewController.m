@@ -10,6 +10,11 @@
 #import "DetailViewController.h"
 #import "TopicTableProvider.h"
 #import "QuestionTableProvider.h"
+#import "QuestionDetailProvider.h"
+#import "AppDelegate.h"
+#import "StackOverflowManager.h"
+#import "Topic.h"
+#import <objc/runtime.h>
 
 @interface BrowseOverflowViewController () {
     NSMutableArray *_objects;
@@ -29,8 +34,11 @@
     self.tableView.dataSource = _provider;
     self.tableView.delegate = _provider;
     
-	// Do any additional setup after loading the view, typically from a nib.
-}
+    // set the tableView only in case the _provider has this iVar
+    objc_property_t tableViewProperty = class_getProperty([_provider class], "tableView");
+    if (tableViewProperty) {
+        [_provider setValue:self.tableView forKey:@"tableView"];
+    }}
 
 - (void)didReceiveMemoryWarning
 {
@@ -38,10 +46,27 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[self appDelegate] manager].delegate = self;
+    
+    if ([self.provider isKindOfClass:[QuestionTableProvider class]]) {
+        QuestionTableProvider *provider = (QuestionTableProvider *)self.provider;
+        [[[self appDelegate] manager] fetchQuestionsOnTopic:provider.topic];
+    }
+    else if ([self.provider isKindOfClass:[QuestionDetailProvider class]]) {
+        QuestionDetailProvider *provider = (QuestionDetailProvider *)self.provider;
+        [[[self appDelegate] manager] fetchBodyForQuestion:provider.question];
+//        [[[self appDelegate] manager] fetchAnswersForQuestion:provider.question];
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSelectTopic:) name:TopicTableDidSelectTopicNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSelectQuestion:) name:QuestionTableDidSelectQuestionNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -133,6 +158,57 @@
     nextViewController.provider = provider;
     
     [[self navigationController] pushViewController:nextViewController animated:YES];
+}
+
+- (void)didSelectQuestion:(NSNotification *)notification
+{    
+    Question *question = (Question *)[notification object];
+    
+    QuestionDetailProvider *provider = [[QuestionDetailProvider alloc] init];
+    provider.question = question;
+
+    BrowseOverflowViewController *nextViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([self class])];
+    nextViewController.provider = provider;
+    
+    
+    [[self navigationController] pushViewController:nextViewController animated:YES];
+}
+
+#pragma mark - StackOverflowManagerDelegate
+
+- (void)fetchingQuestionsFailedWithError:(NSError *)error {
+    
+}
+
+- (void)didReceiveQuestions:(NSArray *)questions {
+    Topic *topic = ((QuestionTableProvider *)self.provider).topic;
+    for (Question *thisQuestion in questions) {
+        [topic addQuestion:thisQuestion];
+    }
+    [self.tableView reloadData];
+}
+
+- (void)fetchingQuestionBodyFailedWithError:(NSError *)error {
+    
+}
+
+- (void)retrievingAnswersFailedWithError:(NSError *)error {
+    
+}
+
+- (void)answersReceivedForQuestion:(Question *)question {
+    [self.tableView reloadData];
+}
+
+- (void)bodyReceivedForQuestion:(Question *)question {
+    [self.tableView reloadData];
+}
+
+#pragma mark - AppDelegate
+
+- (AppDelegate *)appDelegate
+{
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
 @end

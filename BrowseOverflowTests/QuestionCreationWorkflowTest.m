@@ -120,7 +120,7 @@ NSString *const fakeJSON = @"FAKE JSON";
                                                userInfo:@{NSUnderlyingErrorKey : self.underlyingError}];
 
     // when
-    [self.mgr searchingForQuestionsOnTopic:self.topic failedWithError:self.underlyingError];
+    [self.mgr searchingForQuestionsFailedWithError:self.underlyingError];
     
     // then
     assertThat(((MockStackOverflowManagerDelegate *)_delegate).fetchedError, equalTo(reportableError));
@@ -133,7 +133,7 @@ NSString *const fakeJSON = @"FAKE JSON";
     self.mgr.questionBuilder = self.mockQuestionBuilder;
     
     // when
-    [self.mgr receivedQuestionJSON:fakeJSON];
+    [self.mgr receivedQuestionsJSON:fakeJSON];
     
     // then
     [verify(self.mockQuestionBuilder) questionsFromJSON:fakeJSON error:nil];
@@ -147,7 +147,7 @@ NSString *const fakeJSON = @"FAKE JSON";
     self.mgr.questionBuilder = self.mockQuestionBuilder;
     
     // when
-    [self.mgr receivedQuestionJSON:fakeJSON];
+    [self.mgr receivedQuestionsJSON:fakeJSON];
     
     // then
     assertThat(((MockStackOverflowManagerDelegate *)_delegate).fetchedError.domain, equalTo(StackOverflowManagerError));

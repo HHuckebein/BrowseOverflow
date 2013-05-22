@@ -37,7 +37,7 @@
         return [@(self.score) compare:@(anotherAnswer.score)];
     }
     else {
-        return self.accepted ? NSOrderedDescending : NSOrderedAscending;
+        return self.accepted ? NSOrderedAscending : NSOrderedDescending;
     }
 }
 
@@ -54,4 +54,8 @@
     return newInstance;
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"TEXT:%@ SCORE:%d PERSON:%@ %@", self.text, self.score, self.person, _accepted ? @"accepted" : @"not accepted"];
+}
 @end

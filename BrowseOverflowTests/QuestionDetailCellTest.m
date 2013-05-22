@@ -1,16 +1,16 @@
 //
-//  BrowseOverflow - QuestionSummaryCellTest.m
+//  BrowseOverflow - QuestionDetailCellTest.m
 //  Copyright 2013 RABE_IT Services. All rights reserved.
 //
 //  Created by: Bernd Rabe
 //
 
     // Class under test
-#import "QuestionSummaryCell.h"
+#import "QuestionDetailCell.h"
 
     // Collaborators
 #import "BrowseOverflowViewController.h"
-#import "QuestionTableProvider.h"
+#import "QuestionDetailProvider.h"
 
     // Test support
 #import <SenTestingKit/SenTestingKit.h>
@@ -18,11 +18,11 @@
 #define HC_SHORTHAND
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 
-@interface QuestionSummaryCellTest : SenTestCase
-@property (nonatomic, strong) QuestionSummaryCell *sut;
+@interface QuestionDetailCellTest : SenTestCase
+@property (nonatomic, strong) QuestionDetailCell *sut;
 @end
 
-@implementation QuestionSummaryCellTest
+@implementation QuestionDetailCellTest
 {
     // test fixture ivars go here
 }
@@ -35,7 +35,7 @@
     BrowseOverflowViewController *controller = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([BrowseOverflowViewController class])];
     [controller view];
     
-    self.sut = [controller.tableView dequeueReusableCellWithIdentifier:questionCellReuseIdentifier];
+    self.sut = [controller.tableView dequeueReusableCellWithIdentifier:questionDetailCellReuseIdentifier];
 }
 
 - (void)tearDown
@@ -66,6 +66,11 @@
 {
     // then
     assertThat([self.sut avatarView], is(notNilValue()));
+}
+
+- (void)testBodyWebViewShouldBeConnected
+{
+    assertThat([self.sut bodyWebView], is(notNilValue()));
 }
 
 @end

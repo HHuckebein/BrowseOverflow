@@ -15,6 +15,7 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @property (nonatomic, strong) StackOverflowManager *manager;
-@property (nonatomic, strong) AvatarStore *avatarStore;
+
+- (AvatarStore *)avatarStore;
 
 @end

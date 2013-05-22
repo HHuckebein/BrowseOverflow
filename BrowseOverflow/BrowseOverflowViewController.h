@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StackOverflowManagerDelegate.h"
 
-@interface BrowseOverflowViewController : UIViewController
+@interface BrowseOverflowViewController : UIViewController <StackOverflowManagerDelegate>
 
 @property (nonatomic, weak  ) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) id <UITableViewDataSource, UITableViewDelegate> provider;
+@property (nonatomic, strong) NSObject <UITableViewDataSource, UITableViewDelegate> *provider;
 
 @end

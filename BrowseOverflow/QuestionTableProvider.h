@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const QuestionTableDidSelectQuestionNotification;
 extern NSString *const questionCellReuseIdentifier;
 extern NSString *const placeholderCellReuseIdentifier;
 

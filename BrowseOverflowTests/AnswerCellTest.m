@@ -1,16 +1,16 @@
 //
-//  BrowseOverflow - QuestionSummaryCellTest.m
+//  BrowseOverflow - AnswerCellTest.m
 //  Copyright 2013 RABE_IT Services. All rights reserved.
 //
 //  Created by: Bernd Rabe
 //
 
     // Class under test
-#import "QuestionSummaryCell.h"
+#import "AnswerCell.h"
 
     // Collaborators
 #import "BrowseOverflowViewController.h"
-#import "QuestionTableProvider.h"
+#import "QuestionDetailProvider.h"
 
     // Test support
 #import <SenTestingKit/SenTestingKit.h>
@@ -18,11 +18,11 @@
 #define HC_SHORTHAND
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 
-@interface QuestionSummaryCellTest : SenTestCase
-@property (nonatomic, strong) QuestionSummaryCell *sut;
+@interface AnswerCellTest : SenTestCase
+@property (nonatomic, strong) AnswerCell *sut;
 @end
 
-@implementation QuestionSummaryCellTest
+@implementation AnswerCellTest
 {
     // test fixture ivars go here
 }
@@ -35,7 +35,7 @@
     BrowseOverflowViewController *controller = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([BrowseOverflowViewController class])];
     [controller view];
     
-    self.sut = [controller.tableView dequeueReusableCellWithIdentifier:questionCellReuseIdentifier];
+    self.sut = [controller.tableView dequeueReusableCellWithIdentifier:answerCellReuseIdentifier];
 }
 
 - (void)tearDown
@@ -44,16 +44,16 @@
     [super tearDown];
 }
 
-- (void)testTitleLabelShouldBeConnected
+- (void)testAcceptedIndicatorShouldBeConnected
 {
     // then
-    assertThat([self.sut titleLabel], is(notNilValue()));
+    assertThat([self.sut acceptedIndicator], is(notNilValue()));
 }
 
-- (void)testNameLabelShouldBeConnected
+- (void)testPersonNameLabelShouldBeConnected
 {
     // then
-    assertThat([self.sut nameLabel], is(notNilValue()));
+    assertThat([self.sut personName], is(notNilValue()));
 }
 
 - (void)testScoreLabelShouldBeConnected
@@ -62,10 +62,14 @@
     assertThat([self.sut scoreLabel], is(notNilValue()));
 }
 
-- (void)testAvatarViewShouldBeConnected
+- (void)testPersonAvatarViewShouldBeConnected
 {
     // then
-    assertThat([self.sut avatarView], is(notNilValue()));
+    assertThat([self.sut personAvatar], is(notNilValue()));
 }
 
+- (void)testBodyWebViewShouldBeConnected
+{
+    assertThat([self.sut bodyWebView], is(notNilValue()));
+}
 @end

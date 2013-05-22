@@ -14,22 +14,24 @@ extern NSString *const StackOverflowManagerError;
 
 NS_ENUM(NSUInteger, StackOverflowManagerErrorCode) {
     StackOverflowManagerErrorQuestionSearch, 
-    StackOverflowManagerErrorQuestionBodyFetchCode
+    StackOverflowManagerErrorQuestionBodyFetchCode,
+    StackOverflowManagerErrorAnswerFetchCode
 };
 
-@class Topic, QuestionBuilder, Question, StackOverflowCommunicator;
+@class Topic, QuestionBuilder, Question, StackOverflowCommunicator, AnswerBuilder;
 
 @interface StackOverflowManager : NSObject <StackOverflowCommunicatorDelegate>
 @property (nonatomic, weak  ) id <StackOverflowManagerDelegate> delegate;
 @property (nonatomic, strong) StackOverflowCommunicator         *communicator;
 @property (nonatomic, strong) QuestionBuilder                   *questionBuilder;
+@property (nonatomic, strong) AnswerBuilder                     *answerBuilder;
 @property (nonatomic, strong,readonly) Question                 *questionToFill;
 
 - (void)fetchQuestionsOnTopic:(Topic *)topic;
+
 - (void)fetchBodyForQuestion:(Question *)question;
-- (void)searchingForQuestionsOnTopic:(Topic *)topic failedWithError:(NSError *)error;
-- (void)fetchingQuestionBodyFailedWithError:(NSError *)error;
-- (void)receivedQuestionJSON:(NSString *)objectNotation;
-- (void)receivedQuestionBodyJSON:(NSString *)objectNotation;
+
+- (void)fetchAnswersForQuestion: (Question *)question;
+
 @end
 

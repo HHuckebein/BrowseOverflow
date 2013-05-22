@@ -13,6 +13,9 @@
 #import "AnswerBuilder.h"
 #import "AvatarStore.h"
 
+@interface AppDelegate()
+@end
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -69,7 +72,7 @@
     static AvatarStore *avatarStore = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _avatarStore = [[AvatarStore alloc] init];
+        avatarStore = [[AvatarStore alloc] init];
     });
     return avatarStore;
 }

@@ -11,14 +11,44 @@
 #import "QuestionSummaryCell.h"
 #import "Question.h"
 #import "Person.h"
+#import "AppDelegate.h"
+#import "AvatarStore.h"
 
+NSString *const QuestionTableDidSelectQuestionNotification = @"QuestionTableDidSelectQuestionNotification";
 NSString *const questionCellReuseIdentifier = @"QuestionCellStyle";
 NSString *const placeholderCellReuseIdentifier = @"BasicStyle";
 
 @interface QuestionTableProvider()
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
 @end
 
 @implementation QuestionTableProvider
+
+#pragma mark - AppDelegate
+
+- (AppDelegate *)appDelegate
+{
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(avatarStoreDidUpdateContent:) name:AvatarStoreDidUpdateContentNotification object:[self appDelegate].avatarStore];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)avatarStoreDidUpdateContent:(NSNotification *)notification
+{
+    [self.tableView reloadData];
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -35,6 +65,12 @@ NSString *const placeholderCellReuseIdentifier = @"BasicStyle";
         cell.scoreLabel.text = [NSNumberFormatter localizedStringFromNumber:@(question.score) numberStyle:NSNumberFormatterDecimalStyle];
         cell.nameLabel.text = question.asker.name;
         
+        NSData *avatarData = [[[self appDelegate] avatarStore] dataForURL:question.asker.avatarURL];
+        if (nil == avatarData) {
+            avatarData = [[[self appDelegate] avatarStore] defaultData];
+        }
+        cell.avatarView.image = [UIImage imageWithData:avatarData];
+        
         return cell;
         
     }
@@ -50,6 +86,15 @@ NSString *const placeholderCellReuseIdentifier = @"BasicStyle";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 {
+    if ([self.topic recentQuestions].count) {
+        NSNotification *notification = [NSNotification notificationWithName: QuestionTableDidSelectQuestionNotification object:self.topic.recentQuestions[indexPath.row]];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return self.topic.recentQuestions.count ? 80. : 44.;
 }
 
 @end

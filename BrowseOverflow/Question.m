@@ -60,7 +60,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"title:%@ (id:%d) date:%@ score:%d body:%@ asker:%@, answers:%@", self.title, self.questionID, self.date, self.score, self.body, self.answers, self.asker];
+    return [NSString stringWithFormat:@"TITLE:%@ (ID:%d) DATE:%@ S:%d BODY:%@ ASKER:%@, ANSWERS:%@", self.title, self.questionID, self.date, self.score, self.body, self.answers, self.asker];
 }
 
 @end

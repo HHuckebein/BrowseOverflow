@@ -20,4 +20,6 @@
 
 + (id)answerFromAnswerDictionary:(NSDictionary *)answerDictionary;
 
+- (NSString *)description;
+
 @end

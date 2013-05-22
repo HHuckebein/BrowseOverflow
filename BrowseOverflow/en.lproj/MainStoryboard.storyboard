@@ -98,6 +98,134 @@
                                             <outlet property="titleLabel" destination="zQD-tr-etD" id="Rjh-98-5Xe"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="QuestionDetailCellStyle" rowHeight="256" id="xlF-Ii-otZ" customClass="QuestionDetailCell">
+                                        <rect key="frame" x="0.0" y="146" width="320" height="256"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="255"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DMg-lA-NSw" userLabel="Title Label">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPl-YD-h4I" userLabel="Name Label">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="231" id="q2G-8l-psf"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pe0-rg-eQP" userLabel="Score Label">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="42" id="MpL-GT-2Tb"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FhS-qh-0ER" userLabel="Avatar Image">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="45" id="QYc-mv-Rcv"/>
+                                                        <constraint firstAttribute="height" constant="44" id="kPS-r9-06n"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7ei-Mg-aUF" userLabel="Body Web View">
+                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="159" id="FgE-MR-gDe"/>
+                                                    </constraints>
+                                                </webView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="Pe0-rg-eQP" secondAttribute="trailing" constant="20" type="default" id="4gi-0N-r89"/>
+                                            <constraint firstItem="DMg-lA-NSw" firstAttribute="leading" secondItem="xlF-Ii-otZ" secondAttribute="leading" constant="20" type="default" id="55n-pT-odf"/>
+                                            <constraint firstItem="Pe0-rg-eQP" firstAttribute="top" secondItem="xlF-Ii-otZ" secondAttribute="top" constant="7" id="7ma-Xf-HsJ"/>
+                                            <constraint firstItem="FhS-qh-0ER" firstAttribute="top" secondItem="7ei-Mg-aUF" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="OrI-vK-dLr"/>
+                                            <constraint firstItem="7ei-Mg-aUF" firstAttribute="top" secondItem="DMg-lA-NSw" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="TjA-Ga-Ils"/>
+                                            <constraint firstAttribute="trailing" secondItem="cPl-YD-h4I" secondAttribute="trailing" constant="20" type="default" id="XIK-pn-oHl"/>
+                                            <constraint firstAttribute="trailing" secondItem="7ei-Mg-aUF" secondAttribute="trailing" constant="20" type="default" id="gIH-xY-ig8"/>
+                                            <constraint firstItem="DMg-lA-NSw" firstAttribute="top" secondItem="xlF-Ii-otZ" secondAttribute="top" constant="8" id="mDF-GZ-VQd"/>
+                                            <constraint firstItem="7ei-Mg-aUF" firstAttribute="leading" secondItem="FhS-qh-0ER" secondAttribute="leading" type="default" id="noz-89-eqM"/>
+                                            <constraint firstItem="Pe0-rg-eQP" firstAttribute="leading" secondItem="DMg-lA-NSw" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="sFX-dJ-D8x"/>
+                                            <constraint firstItem="cPl-YD-h4I" firstAttribute="leading" secondItem="FhS-qh-0ER" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="ukI-9V-0Za"/>
+                                            <constraint firstAttribute="bottom" secondItem="cPl-YD-h4I" secondAttribute="bottom" constant="9" id="xUp-Nd-iwg"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="avatarView" destination="FhS-qh-0ER" id="X2t-8t-bGT"/>
+                                            <outlet property="bodyWebView" destination="7ei-Mg-aUF" id="BBo-zB-rV8"/>
+                                            <outlet property="nameLabel" destination="cPl-YD-h4I" id="wiI-Iz-GR9"/>
+                                            <outlet property="scoreLabel" destination="Pe0-rg-eQP" id="h5g-EA-qGF"/>
+                                            <outlet property="titleLabel" destination="DMg-lA-NSw" id="f2b-AD-Mr2"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AnswerCellStyle" rowHeight="200" id="HF3-p4-hfN" customClass="AnswerCell">
+                                        <rect key="frame" x="0.0" y="402" width="320" height="200"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="199"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Gl-5L-Xab" userLabel="Name Label">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="COa-Pb-AAy" userLabel="Score Label">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AiB-RT-Fjk" userLabel="Avatar Image">
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="44" id="ESm-Vb-okF"/>
+                                                        <constraint firstAttribute="width" constant="45" id="trU-Mz-5Qf"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uus-eC-EKU" userLabel="Body Web View">
+                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="235" id="Abb-i2-HdB"/>
+                                                        <constraint firstAttribute="height" constant="128" id="MwZ-U1-DRu"/>
+                                                    </constraints>
+                                                </webView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="✔" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Kz-6X-nCg" userLabel="Accepted Label">
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="42" id="Edh-Pd-BbM"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="uus-eC-EKU" firstAttribute="top" secondItem="HF3-p4-hfN" secondAttribute="top" constant="8" id="1ry-jE-gXJ"/>
+                                            <constraint firstItem="8Gl-5L-Xab" firstAttribute="leading" secondItem="uus-eC-EKU" secondAttribute="leading" type="default" id="MvI-Cy-D2L"/>
+                                            <constraint firstItem="8Gl-5L-Xab" firstAttribute="bottom" secondItem="AiB-RT-Fjk" secondAttribute="bottom" type="default" id="OwE-XU-Clw"/>
+                                            <constraint firstAttribute="bottom" secondItem="8Gl-5L-Xab" secondAttribute="bottom" constant="8" id="ZQJ-w3-01j"/>
+                                            <constraint firstItem="uus-eC-EKU" firstAttribute="leading" secondItem="7Kz-6X-nCg" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="bAj-sI-k4W"/>
+                                            <constraint firstAttribute="trailing" secondItem="8Gl-5L-Xab" secondAttribute="trailing" constant="20" type="default" id="dmQ-8A-LXT"/>
+                                            <constraint firstItem="uus-eC-EKU" firstAttribute="leading" secondItem="COa-Pb-AAy" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="eS8-MY-DgU"/>
+                                            <constraint firstItem="AiB-RT-Fjk" firstAttribute="leading" secondItem="7Kz-6X-nCg" secondAttribute="leading" type="default" id="gV0-ox-cxS"/>
+                                            <constraint firstItem="7Kz-6X-nCg" firstAttribute="leading" secondItem="COa-Pb-AAy" secondAttribute="leading" type="default" id="qV2-LP-IQD"/>
+                                            <constraint firstItem="7Kz-6X-nCg" firstAttribute="top" secondItem="COa-Pb-AAy" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="s4o-pa-sPX"/>
+                                            <constraint firstAttribute="trailing" secondItem="uus-eC-EKU" secondAttribute="trailing" constant="20" type="default" id="sf0-9F-9y0"/>
+                                            <constraint firstItem="COa-Pb-AAy" firstAttribute="top" secondItem="HF3-p4-hfN" secondAttribute="top" constant="5" id="xDp-Qn-avf"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="acceptedIndicator" destination="7Kz-6X-nCg" id="M9z-Y5-vg6"/>
+                                            <outlet property="bodyWebView" destination="uus-eC-EKU" id="7l4-Ii-S3h"/>
+                                            <outlet property="personAvatar" destination="AiB-RT-Fjk" id="NDD-vI-i3b"/>
+                                            <outlet property="personName" destination="8Gl-5L-Xab" id="7gW-Mf-gYf"/>
+                                            <outlet property="scoreLabel" destination="COa-Pb-AAy" id="naj-in-fFJ"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="31H-lg-hyd" id="ixa-yG-c9c"/>
@@ -124,6 +252,16 @@
         </scene>
     </scenes>
     <classes>
+        <class className="AnswerCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnswerCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="acceptedIndicator" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="bodyWebView" candidateClass="UIWebView"/>
+                <relationship kind="outlet" name="personAvatar" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="personName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="scoreLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
         <class className="BrowseOverflowViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/BrowseOverflowViewController.h"/>
             <relationships>
@@ -132,6 +270,16 @@
         </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="QuestionDetailCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/QuestionDetailCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="avatarView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="bodyWebView" candidateClass="UIWebView"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="scoreLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
         </class>
         <class className="QuestionSummaryCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/QuestionSummaryCell.h"/>

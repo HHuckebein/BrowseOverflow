@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSString *otherLocation;
 
 @property (nonatomic, assign) NSInteger notificationReceived;
+@property (nonatomic, strong) NSData    *receivedData;
 
 @end
 
@@ -106,7 +107,7 @@
 - (void)testStoreSendsDataUpdateNotificationWhenDataRetrieved
 {
     // when
-    [self.sut communicatorReceivedData:self.sampleData forURL: [NSURL URLWithString:self.otherLocation]];
+    [self.sut communicatorReceivedData:self.sampleData forURL:[NSURL URLWithString:self.otherLocation]];
     
     // then
     assertThatInteger(_notificationReceived, is(equalToInteger(1)));
@@ -152,6 +153,10 @@
 - (void)contentReceivedNotificationReceived:(NSNotification *)notification
 {
     ++_notificationReceived;
+    AvatarStore *store = [notification object];
+    
+    NSURL *otherURL = [NSURL URLWithString:self.otherLocation];
+    [store dataForURL:otherURL];
 }
 
 @end

@@ -88,8 +88,8 @@
     self.anotherAnswer.accepted = TRUE;
     
     // then
-    assertThatInteger([self.sut compare:self.anotherAnswer], equalToInteger(NSOrderedAscending));
-    assertThatInteger([self.anotherAnswer compare:self.sut], equalToInteger(NSOrderedDescending));
+    assertThatInteger([self.sut compare:self.anotherAnswer], equalToInteger(NSOrderedDescending));
+    assertThatInteger([self.anotherAnswer compare:self.sut], equalToInteger(NSOrderedAscending));
 }
 
 - (void)testLowerScoringAnswerComesAfterHigher
