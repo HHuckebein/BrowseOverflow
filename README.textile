@@ -1,6 +1,6 @@
 h2. BrowseOverflow using OCHamcrest/OCMockito
 
-I recently came to Graham Lee's book Test-Driven iOS Development when looking when searching for an in-depth look on unit testing.
+I recently came to Graham Lee's book <a title="Test-Driven iOS Development" href="http://www.amazon.com/gp/product/0321774183/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0321774183&linkCode=as2&tag=qualitycoding-20" target="_blank">Test-Driven iOS Development</a> when looking when searching for an in-depth look on unit testing.
 Graham's Book doesn't make use of mock objects but using what is coming with every Xcode installation - OCUnit.
 
 The unit testing environment lacks mock object, so as soon as you start to dive into test driven development you have to choose your tools.
@@ -9,7 +9,7 @@ I even found a rather bad coding style on my side. So thinking about testing in 
 
 If you haven't done unit testing before I strongly recommend the excellent screen casts John made on http://www.qualitycoding.org.
 
-http://www.amazon.com/gp/product/0321774183/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0321774183&linkCode=as2&tag=qualitycoding-20
+
 
 h3. What has changed
 
@@ -68,8 +68,8 @@ or
 
 h3. Where to go from here
 
-As Graham pointed out on page 199 the app doesn't work as one might expect. If you browse the same topic twice you find the same questions added again to the list.
-At least this problem can be easily solved by adding only questions to the recentQuestions array if they are not already part of by examining the questionID.
+As Graham pointed out on page 199 the app doesn't work as one might expect. If you browse the same topic twice you find the same questions added again to the recentQuestions list.
+At least this problem can be easily solved by adding only questions to the recentQuestions array if they are not already part of it by examining the questionID.
 
 I extended the QuestionTest class by three additional test
 
@@ -79,7 +79,7 @@ I extended the QuestionTest class by three additional test
 	- (void)testCompareForQuestionsWithDifferentQuestionIDsReturnNSOrderedDescending
 </code></pre>
 
-plus extending the Question class with
+plus extending the Question class with a compare method
 
 <pre><code>
 	- (NSComparisonResult)compare:(Question *)question
@@ -96,7 +96,7 @@ plus extending the Question class with
 	}
 </code></pre>
 
-and the Topic class with
+and the Topic class with a method which returns TRUE if a question with a given questionID can be found in the current list.
 
 <pre><code>
 	- (BOOL)containsQuestion:(Question *)question
@@ -114,4 +114,15 @@ and the Topic class with
 	}
 </code></pre>
 
-so before adding a new question to the list we can check if it is already part of the current list and skip adding if it is.
+So before adding a new question to the list we can check if it is already part of the current list and skip adding if it is.
+
+If you follow the books example page by page and write your tests and code together you might think that it takes a while before you see the app in action and you are right.
+In agile development one would define a User Stories e.g. When the app starts it should show a list of topics.
+As Jonathan Rasmusson in his book The Agile Samurai has put it, the user story shoud comply to INVEST (Independable, Negotiable, Valuable, Estimatable, Small, Testable).
+For the BrowseOverflow app you could think of one user story to show the list of topics. And than the Questions for a specific topic.
+If you try to group your test code around one user story you not only have a success when running your unit test but you could show also that you managed to code a running app.
+Most likely you would have noticed that selecting a topic twice leads to adding the same questions again.
+
+h3. Acknowledgments
+
+Thanks to Graham Lee and John Reid who gave me directions for my own projects and helped me to improve my skills.
