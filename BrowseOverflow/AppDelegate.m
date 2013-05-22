@@ -12,8 +12,10 @@
 #import "QuestionBuilder.h"
 #import "AnswerBuilder.h"
 #import "AvatarStore.h"
+#import "Topic.h"
 
 @interface AppDelegate()
+@property (nonatomic, strong) NSArray *topics;
 @end
 
 @implementation AppDelegate
@@ -53,22 +55,25 @@
 
 #pragma mark - StackOverflow Stuff
 
-- (StackOverflowManager *)stackOverflowManager {
+- (StackOverflowManager *)manager
+{
+    static StackOverflowManager *manager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _manager = [[StackOverflowManager alloc] init];
-        _manager.communicator = [[StackOverflowCommunicator alloc] init];
-        _manager.communicator.delegate = _manager;
+        manager = [[StackOverflowManager alloc] init];
+        manager.communicator = [[StackOverflowCommunicator alloc] init];
+        manager.communicator.delegate = manager;
         
-//        _manager.bodyCommunicator = [[StackOverflowCommunicator alloc] init];
-//        _manager.bodyCommunicator.delegate = _manager;
-        _manager.questionBuilder = [[QuestionBuilder alloc] init];
-//        _manager.answerBuilder = [[AnswerBuilder alloc] init];
+        manager.bodyCommunicator = [[StackOverflowCommunicator alloc] init];
+        manager.bodyCommunicator.delegate = manager;
+        manager.questionBuilder = [[QuestionBuilder alloc] init];
+        manager.answerBuilder = [[AnswerBuilder alloc] init];
     });
-    return _manager;
+    return manager;
 }
 
-- (AvatarStore *)avatarStore {
+- (AvatarStore *)avatarStore
+{
     static AvatarStore *avatarStore = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -77,4 +82,16 @@
     return avatarStore;
 }
 
+- (NSArray *)topics {
+    if (nil == _topics) {
+        NSString *tags[] = { @"iphone", @"cocoa-touch", @"uikit", @"objective-c", @"xcode" };
+        NSString *names[] = { @"iPhone", @"Cocoa Touch", @"UIKit", @"Objective-C", @"Xcode" };
+        NSMutableArray *topicList = [NSMutableArray array];
+        for (NSInteger i = 0; i < 5; i++) {
+            Topic *thisTopic = [[Topic alloc] initWithName:names[i] tag:tags[i]];
+            [topicList addObject: thisTopic]; }
+        _topics = [topicList copy];
+    }
+    return _topics;
+}
 @end

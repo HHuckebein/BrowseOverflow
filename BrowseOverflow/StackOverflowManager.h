@@ -23,6 +23,7 @@ NS_ENUM(NSUInteger, StackOverflowManagerErrorCode) {
 @interface StackOverflowManager : NSObject <StackOverflowCommunicatorDelegate>
 @property (nonatomic, weak  ) id <StackOverflowManagerDelegate> delegate;
 @property (nonatomic, strong) StackOverflowCommunicator         *communicator;
+@property (nonatomic, strong) StackOverflowCommunicator         *bodyCommunicator;
 @property (nonatomic, strong) QuestionBuilder                   *questionBuilder;
 @property (nonatomic, strong) AnswerBuilder                     *answerBuilder;
 @property (nonatomic, strong,readonly) Question                 *questionToFill;

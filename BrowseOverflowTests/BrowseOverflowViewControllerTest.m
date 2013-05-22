@@ -17,7 +17,7 @@
 #import "Question.h"
 #import "QuestionDetailProvider.h"
 #import "StackOverflowManager.h"
-#import "AppDelegate.h"
+#import "BrowseOverflowDelegate.h"
 
     // Test support
 #import <SenTestingKit/SenTestingKit.h>
@@ -42,13 +42,13 @@ static const char *delegateKey = "BrowseOverflowViewControllerTestsAssociatedDel
     objc_setAssociatedObject(self, notificationKey, note, OBJC_ASSOCIATION_RETAIN);
 }
 
-- (AppDelegate *)browseOverflowControllerTests_AppDelegate
+- (id)browseOverflowControllerTests_Delegate
 {
-    AppDelegate *delegate = objc_getAssociatedObject(self, delegateKey);
+     id delegate = objc_getAssociatedObject(self, delegateKey);
     return delegate;
 }
 
-- (void)initWithAppDelegate:(AppDelegate *)delegate
+- (void)initWithDelegate:(id <BrowseOverflowDelegate>)delegate
 {
     objc_setAssociatedObject(self, delegateKey, delegate, OBJC_ASSOCIATION_RETAIN);
 }
@@ -59,7 +59,7 @@ static const char *delegateKey = "BrowseOverflowViewControllerTestsAssociatedDel
 @interface BrowseOverflowViewControllerTest : SenTestCase
 @property (nonatomic, strong) BrowseOverflowViewController *sut;
 @property (nonatomic, strong) UINavigationController *navController;
-@property (nonatomic, strong) AppDelegate *mockAppDelegate;
+@property (nonatomic, weak  ) id <BrowseOverflowDelegate> mockAppDelegate;
 @end
 
 @implementation BrowseOverflowViewControllerTest
@@ -87,7 +87,7 @@ static const char *delegateKey = "BrowseOverflowViewControllerTestsAssociatedDel
     
     self.navController = [[UINavigationController alloc] initWithRootViewController:self.sut];
     
-    self.mockAppDelegate = mock([AppDelegate class]);
+    _mockAppDelegate = mockProtocol(@protocol(BrowseOverflowDelegate));
 
     objc_removeAssociatedObjects(_sut);
     
@@ -97,8 +97,8 @@ static const char *delegateKey = "BrowseOverflowViewControllerTestsAssociatedDel
     realUserDidSelectQuestion = @selector(didSelectQuestion:);
     testUserDidSelectQuestion = @selector(browseOverflowControllerTests_didSelectQuestion:);
     
-    realAppDelegate = @selector(appDelegate);
-    testAppDelegate = @selector(browseOverflowControllerTests_AppDelegate);
+    realAppDelegate = @selector(delegate);
+    testAppDelegate = @selector(browseOverflowControllerTests_Delegate);
 }
 
 - (void)tearDown
@@ -316,10 +316,10 @@ static const char *delegateKey = "BrowseOverflowViewControllerTestsAssociatedDel
                                                       andSelector:testAppDelegate];
     
     // given
-    [self.sut initWithAppDelegate:self.mockAppDelegate];
+    [self.sut initWithDelegate:self.mockAppDelegate];
     
     StackOverflowManager *mockManager = mockObjectAndProtocol([StackOverflowManager class], @protocol(StackOverflowManagerDelegate));
-    [given([self.mockAppDelegate manager]) willReturn:mockManager];
+    [given([_mockAppDelegate manager]) willReturn:mockManager];
     
     Topic *topic = [[Topic alloc] initWithName:@"iPhone" tag:@"iphone"];
     QuestionTableProvider *provider = [[QuestionTableProvider alloc] init];
@@ -345,10 +345,10 @@ static const char *delegateKey = "BrowseOverflowViewControllerTestsAssociatedDel
                                                       andSelector:testAppDelegate];
     
     // given
-    [self.sut initWithAppDelegate:self.mockAppDelegate];
+    [self.sut initWithDelegate:self.mockAppDelegate];
     
     StackOverflowManager *mockManager = mockObjectAndProtocol([StackOverflowManager class], @protocol(StackOverflowManagerDelegate));
-    [given([self.mockAppDelegate manager]) willReturn:mockManager];
+    [given([_mockAppDelegate manager]) willReturn:mockManager];
     
     Question *question = [[Question alloc] init];
     QuestionDetailProvider *provider = [[QuestionDetailProvider alloc] init];

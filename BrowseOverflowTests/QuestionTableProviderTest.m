@@ -14,7 +14,7 @@
 #import "Person.h"
 #import "QuestionSummaryCell.h"
 #import "BrowseOverflowViewController.h"
-#import "AppDelegate.h"
+#import "BrowseOverflowDelegate.h"
 #import "AvatarStore+TestExtension.h"
 #import <objc/runtime.h>
 
@@ -39,6 +39,8 @@
 
 @property (nonatomic, assign) NSInteger                     receivedQuestionListDidSelectQuestionNotification;
 @property (nonatomic, strong) NSNotification                *receivedNotification;
+
+@property (nonatomic, weak  ) id <BrowseOverflowDelegate> delegate;
 
 @end
 
@@ -154,7 +156,7 @@
     NSData *data = [@"Fake Data" dataUsingEncoding:NSUTF8StringEncoding];
 
     // when
-    [[[self appDelegate] avatarStore] communicatorReceivedData:data forURL:self.asker1.avatarURL];
+    [[[self delegate] avatarStore] communicatorReceivedData:data forURL:self.asker1.avatarURL];
     
     // then
     [verify(mockTableView) reloadData];
@@ -212,11 +214,14 @@
     self.receivedNotification = notification;
 }
 
-#pragma mark - AppDelegate
+#pragma mark - BrowseOverflowDelegate
 
-- (AppDelegate *)appDelegate
+- (id)delegate
 {
-    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (nil == _delegate && [[[UIApplication sharedApplication] delegate] conformsToProtocol:@protocol(BrowseOverflowDelegate)]) {
+        _delegate = (id)[[UIApplication sharedApplication] delegate];
+    }
+    return _delegate;
 }
 
 @end

@@ -18,11 +18,6 @@
 #define HC_SHORTHAND
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 
-// Uncomment the next two lines to use OCMockito for mock objects:
-//#define MOCKITO_SHORTHAND
-//#import <OCMockitoIOS/OCMockitoIOS.h>
-
-
 @interface QuestionTest : SenTestCase
 @property (nonatomic, strong) Question  *sut;
 @property (nonatomic, strong) Person    *asker;

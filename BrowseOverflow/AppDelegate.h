@@ -7,15 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BrowseOverflowDelegate.h"
 
 @class StackOverflowManager, AvatarStore;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, BrowseOverflowDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
-@property (nonatomic, strong) StackOverflowManager *manager;
-
-- (AvatarStore *)avatarStore;
 
 @end

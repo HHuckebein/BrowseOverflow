@@ -32,6 +32,7 @@ NSString *const fakeJSON = @"FAKE JSON";
 @property (nonatomic, strong) Topic *topic;
 @property (nonatomic, strong) id <StackOverflowManagerDelegate> delegate;
 @property (nonatomic, strong) StackOverflowCommunicator *mockCommunicator;
+@property (nonatomic, strong) StackOverflowCommunicator *mockBodyCommunicator;
 @property (nonatomic, strong) QuestionBuilder *mockQuestionBuilder;
 
 @property (nonatomic, strong) NSError *underlyingError;
@@ -54,8 +55,11 @@ NSString *const fakeJSON = @"FAKE JSON";
     
     self.delegate = (id <StackOverflowManagerDelegate>)[[MockStackOverflowManagerDelegate alloc] init];
         
+    self.mockBodyCommunicator = mock([StackOverflowCommunicator class]);
+
     self.mockCommunicator = mock([StackOverflowCommunicator class]);
     self.mgr.communicator = self.mockCommunicator;
+    self.mgr.bodyCommunicator = self.mockBodyCommunicator;
     
     self.questionToFetch = [[Question alloc] init];
     self.questionToFetch.questionID = 1234;
@@ -72,6 +76,7 @@ NSString *const fakeJSON = @"FAKE JSON";
     _mgr = nil;
     _topic = nil;
     _mockCommunicator = nil;
+    _mockBodyCommunicator = nil;
     _delegate = nil;
     _mockQuestionBuilder = nil;
     _questionToFetch = nil;
@@ -164,7 +169,7 @@ NSString *const fakeJSON = @"FAKE JSON";
     [self.mgr fetchBodyForQuestion:self.questionToFetch];
     
     // then
-    [verify(self.mockCommunicator) downloadInformationForQuestionWithID:self.questionToFetch.questionID];
+    [verify(self.mockBodyCommunicator) downloadInformationForQuestionWithID:self.questionToFetch.questionID];
 }
 
 - (void)testDelegateNotifiedOfFailureToFetchQuestion

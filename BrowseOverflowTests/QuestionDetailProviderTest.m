@@ -9,7 +9,6 @@
 #import "QuestionDetailProvider.h"
 
     // Collaborators
-#import "AppDelegate.h"
 #import "BrowseOverflowViewController.h"
 #import "Question.h"
 #import "Answer.h"
@@ -17,17 +16,13 @@
 #import "QuestionDetailCell.h"
 #import "AvatarStore+TestExtension.h"
 #import "AnswerCell.h"
+#import "BrowseOverflowDelegate.h"
 
     // Test support
 #import <SenTestingKit/SenTestingKit.h>
 
 #define HC_SHORTHAND
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-
-// Uncomment the next two lines to use OCMockito for mock objects:
-//#define MOCKITO_SHORTHAND
-//#import <OCMockitoIOS/OCMockitoIOS.h>
-
 
 @interface QuestionDetailProviderTest : SenTestCase
 @property (nonatomic, strong) QuestionDetailProvider *sut;
@@ -41,6 +36,7 @@
 @property (nonatomic, strong) NSIndexPath *firstAnswerPath;
 @property (nonatomic, strong) NSIndexPath *secondAnswerPath;
 @property (nonatomic, strong) NSData *imageData;
+@property (nonatomic, weak  ) id <BrowseOverflowDelegate> delegate;
 @end
 
 @implementation QuestionDetailProviderTest
@@ -147,7 +143,7 @@
 - (void)testQuestionCellGetsImageFromAvatarStore
 {
     // given
-    [[[self appDelegate] avatarStore] setData:self.imageData forLocation:[self.asker.avatarURL absoluteString]];
+    [[[self delegate] avatarStore] setData:self.imageData forLocation:[self.asker.avatarURL absoluteString]];
     
     // when
     QuestionDetailCell *cell = (QuestionDetailCell *)[self.sut tableView:self.tableView cellForRowAtIndexPath:self.questionPath];
@@ -180,7 +176,7 @@
 - (void)testAnswererPropertiesInAnswerCell
 {
     // given
-    [[[self appDelegate] avatarStore] setData:self.imageData forLocation:[self.answerer.avatarURL absoluteString]];
+    [[[self delegate] avatarStore] setData:self.imageData forLocation:[self.answerer.avatarURL absoluteString]];
     
     // when
     AnswerCell *answerCell = (AnswerCell *)[self.sut tableView:self.tableView cellForRowAtIndexPath:self.firstAnswerPath];
@@ -217,11 +213,14 @@
     assertThatBool(height >= cell.frame.size.height, is(equalToBool(TRUE)));
 }
 
-#pragma mark - AppDelegate
+#pragma mark - BrowseOverflowDelegate
 
-- (AppDelegate *)appDelegate
+- (id)delegate
 {
-    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (nil == _delegate && [[[UIApplication sharedApplication] delegate] conformsToProtocol:@protocol(BrowseOverflowDelegate)]) {
+        _delegate = (id)[[UIApplication sharedApplication] delegate];
+    }
+    return _delegate;
 }
 
 @end

@@ -46,7 +46,7 @@ NSString *const StackOverflowManagerError = @"StackOverflowManagerError";
 - (void)fetchBodyForQuestion:(Question *)question
 {
     self.questionNeedingBody = question;
-    [self.communicator downloadInformationForQuestionWithID:self.questionNeedingBody.questionID];
+    [self.bodyCommunicator downloadInformationForQuestionWithID:self.questionNeedingBody.questionID];
 }
 
 #pragma mark - Answers

@@ -7,11 +7,12 @@
 //
 
 #import "BrowseOverflowViewController.h"
+
+#import "BrowseOverflowDelegate.h"
 #import "DetailViewController.h"
 #import "TopicTableProvider.h"
 #import "QuestionTableProvider.h"
 #import "QuestionDetailProvider.h"
-#import "AppDelegate.h"
 #import "StackOverflowManager.h"
 #import "Topic.h"
 #import <objc/runtime.h>
@@ -19,6 +20,8 @@
 @interface BrowseOverflowViewController () {
     NSMutableArray *_objects;
 }
+@property (nonatomic, weak) id <BrowseOverflowDelegate> delegate;
+
 @end
 
 @implementation BrowseOverflowViewController
@@ -49,15 +52,15 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[self appDelegate] manager].delegate = self;
+    [[self delegate] manager].delegate = self;
     
     if ([self.provider isKindOfClass:[QuestionTableProvider class]]) {
         QuestionTableProvider *provider = (QuestionTableProvider *)self.provider;
-        [[[self appDelegate] manager] fetchQuestionsOnTopic:provider.topic];
+        [[[self delegate] manager] fetchQuestionsOnTopic:provider.topic];
     }
     else if ([self.provider isKindOfClass:[QuestionDetailProvider class]]) {
         QuestionDetailProvider *provider = (QuestionDetailProvider *)self.provider;
-        [[[self appDelegate] manager] fetchBodyForQuestion:provider.question];
+        [[[self delegate] manager] fetchBodyForQuestion:provider.question];
 //        [[[self appDelegate] manager] fetchAnswersForQuestion:provider.question];
     }
 }
@@ -204,11 +207,14 @@
     [self.tableView reloadData];
 }
 
-#pragma mark - AppDelegate
+#pragma mark - BrowseOverflowDelegate
 
-- (AppDelegate *)appDelegate
+- (id)delegate
 {
-    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (nil == _delegate && [[[UIApplication sharedApplication] delegate] conformsToProtocol:@protocol(BrowseOverflowDelegate)]) {
+        _delegate = (id)[[UIApplication sharedApplication] delegate];
+    }
+    return _delegate;
 }
 
 @end
