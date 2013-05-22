@@ -84,9 +84,11 @@
 {
     // when
     Question *q1 = [[Question alloc] init];
+    q1.questionID = 1;
     q1.date = [NSDate distantPast];
     
     Question *q2 = [[Question alloc] init];
+    q2.questionID = 2;
     q2.date = [NSDate distantFuture];
     
     [self.sut addQuestion:q1];
@@ -100,9 +102,11 @@
 {
     // when
     Question *q1 = [[Question alloc] init];
+    q1.questionID = 1;
     q1.date = [NSDate distantPast];
     
     Question *q2 = [[Question alloc] init];
+    q2.questionID = 2;
     q2.date = [NSDate distantFuture];
     
     [self.sut addQuestion:q2];
@@ -115,13 +119,31 @@
 - (void)testLimitOfTwentyQuestions
 {
     // when
-    Question *q1 = [[Question alloc] init];
     for (int i = 0; i < 25; i++) {
+        Question *q1 = [[Question alloc] init];
+        q1.questionID = i;
         [self.sut addQuestion:q1];
     }
     
     // then
     assertThatInteger(self.sut.recentQuestions.count, equalToInteger(20));
+}
+
+- (void)testOnlyQuestionsWithDifferentQuestionIdsAreAdded
+{
+    // when
+    Question *q1 = [[Question alloc] init];
+    q1.date = [NSDate distantPast];
+
+    Question *q2 = [[Question alloc] init];
+    q2.date = [NSDate distantFuture];
+    
+    [self.sut addQuestion:q2];
+    [self.sut addQuestion:q1];
+
+    // then
+    assertThat(self.sut.recentQuestions, hasCountOf(1));
+    assertThat(self.sut.recentQuestions, contains(equalTo(q2), nil));
 }
 
 @end

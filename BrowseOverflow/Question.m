@@ -63,4 +63,17 @@
     return [NSString stringWithFormat:@"TITLE:%@ (ID:%d) DATE:%@ S:%d BODY:%@ ASKER:%@, ANSWERS:%@", self.title, self.questionID, self.date, self.score, self.body, self.answers, self.asker];
 }
 
+- (NSComparisonResult)compare:(Question *)question
+{
+    NSComparisonResult result = NSOrderedAscending;
+    if (self.questionID == question.questionID) {
+        result = NSOrderedSame;
+    }
+    else if (self.questionID > question.questionID) {
+        result = NSOrderedDescending;
+    }
+        
+    return  result;
+}
+
 @end

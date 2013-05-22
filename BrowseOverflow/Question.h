@@ -21,7 +21,10 @@
 @property (nonatomic, assign) NSInteger         questionID;
 
 - (void)addAnswer:(Answer *)answer;
+
 - (void)fillInDetailsFromJSON:(NSString *)objectNotation;
 
 - (NSString *)description;
+- (NSComparisonResult)compare:(Question *)question;
+
 @end

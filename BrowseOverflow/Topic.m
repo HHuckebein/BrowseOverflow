@@ -24,13 +24,16 @@
     return self;
 }
 
+
 - (void)addQuestion:(Question *)question
 {
-    NSArray *array = [[self.recentQuestions arrayByAddingObject:question] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [((Question *)obj2).date compare:((Question *)obj1).date];
-    }];
-    
-    self.recentQuestions = array.count > 20 ? [array subarrayWithRange:NSMakeRange(0, 20)] : array;
+    if ([self containsQuestion:question] == FALSE) {
+        NSArray *array = [[self.recentQuestions arrayByAddingObject:question] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            return [((Question *)obj2).date compare:((Question *)obj1).date];
+        }];
+        
+        self.recentQuestions = array.count > 20 ? [array subarrayWithRange:NSMakeRange(0, 20)] : array;
+    }
 }
 
 - (NSArray *)recentQuestions
@@ -39,6 +42,24 @@
         _recentQuestions = [NSArray array];
     }
     return _recentQuestions;
+}
+
+- (BOOL)containsQuestion:(Question *)question
+{
+    NSUInteger index = [self.recentQuestions indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        Question *aQuestion = (Question *)obj;
+        BOOL isSame = [aQuestion compare:question] == NSOrderedSame ? TRUE : FALSE;
+        *stop = isSame;
+        
+        return isSame;
+    }];
+    
+    if (index == NSNotFound) {
+        return FALSE;
+    }
+    else {
+        return TRUE;
+    }
 }
 
 @end

@@ -196,4 +196,40 @@ static NSString *questionJSON = @"{"
     assertThat(self.sut.body, is(equalTo(@"<p>I've been trying to use persistent keychain references.</p>")));
 }
 
+- (void)testCompareForQuestionsWithIdenticalQuestionIDReturnsNSOrderedSame
+{
+    // given
+    self.sut.questionID = 1;
+
+    Question *question1 = [[Question alloc] init];
+    question1.questionID = self.sut.questionID;
+    
+    // then
+    assertThatInteger([self.sut compare:question1], is(equalToInteger(NSOrderedSame)));
+}
+
+- (void)testCompareForQuestionsWithDifferentQuestionIDsReturnNSOrderesAscending
+{
+    // given
+    self.sut.questionID = 1;
+    
+    Question *question1 = [[Question alloc] init];
+    question1.questionID = self.sut.questionID + 1;
+    
+    // then
+    assertThatInteger([self.sut compare:question1], is(equalToInteger(NSOrderedAscending)));
+}
+
+- (void)testCompareForQuestionsWithDifferentQuestionIDsReturnNSOrderedDescending
+{
+    // given
+    self.sut.questionID = 2;
+    
+    Question *question1 = [[Question alloc] init];
+    question1.questionID = self.sut.questionID - 1;
+    
+    // then
+    assertThatInteger([self.sut compare:question1], is(equalToInteger(NSOrderedDescending)));
+}
+
 @end

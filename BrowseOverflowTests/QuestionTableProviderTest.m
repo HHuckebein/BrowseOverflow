@@ -64,10 +64,12 @@
     self.sut.topic = self.topic;
     
     self.question1 = [[Question alloc] init];
+    self.question1.questionID = 1;
     self.question1.title = @"Question One";
     self.question1.score = 2;
     
     self.question2 = [[Question alloc] init];
+    self.question2.questionID = 2;
     self.question2.title = @"Question Two";
     
     self.asker1 = [Person personWithName:@"Graham Lee" avatarURL:@"http://www.gravatar.com/avatar/563290c0c1b776a315b36e863b388a0c"];
